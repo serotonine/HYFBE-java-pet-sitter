@@ -1,0 +1,24 @@
+INSERT INTO ps_pet_type (pt_name) VALUES
+('American Staffshire terrier')
+('Chihuahua'),
+('Yorkshire Terrier'),
+('Pomeranian'),
+('Dachshund'),
+('Shih Tzu'),
+('French Bulldog'),
+('Beagle'),
+('Border Collie'),
+('Cocker Spaniel'),
+('Bulldog'),
+('Australian Shepherd'),
+('Labrador Retriever'),
+('German Shepherd'),
+('Golden Retriever'),
+('Rottweiler'),
+('Great Dane');
+
+INSERT INTO ps_employee (em_name) VALUES
+('Norbert Dupont'),
+('Akim Benlambra'),
+('Sophie Arnault'),
+('Roger Epstein');

@@ -11,27 +11,31 @@ public class Customer {
     // PRIMARY KEY
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="cus_id")
     private Long id;
 
-    // FIELD NAME (E.g Victor De La Motte)
+    // FIELD NAME
     @Column(name="cus_name", nullable = false, unique = true, length = 150)
     private String name;
 
-    // FIELD ADDRESS (E.g 5 rue Motte, 1050 Bruxelles)
+    // FIELD ADDRESS
     @Column(name="cus_address")
     private String address;
 
+    // FIELD TELEPHON
     @Column(name="cus_tel", unique = true, length = 50)
     private String tel;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Pet> pets = new ArrayList<>();
+    // FIELD EMAIL
+    @Column(name="cus_email", unique = true, length = 50)
+    private String email;
 
-    // Constructor.
+    // CONSTRUCTOR
     public Customer(){}
     public Customer(String name){
         this.name = name;
     }
+
     // GETTERS
     public Long getId() {
         return id;
@@ -49,9 +53,10 @@ public class Customer {
         return tel;
     }
 
-    public List<Pet> getPets() {
-        return pets;
+    public String getEmail() {
+        return email;
     }
+
     // SETTERS
 
     public void setName(String name) {
@@ -66,7 +71,7 @@ public class Customer {
         this.tel = tel;
     }
 
-    public void setPets(List<Pet> pets) {
-        this.pets = pets;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
