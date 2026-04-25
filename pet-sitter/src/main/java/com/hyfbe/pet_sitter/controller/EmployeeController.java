@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-    @Autowired
-    EmployeeService employeeService;
+
+    private final EmployeeService employeeService;
 
     // CONSTRUCTOR
-    public EmployeeController() {
+    public EmployeeController(EmployeeService service) {
+        this.employeeService = service;
     }
     // GET
     @GetMapping("")

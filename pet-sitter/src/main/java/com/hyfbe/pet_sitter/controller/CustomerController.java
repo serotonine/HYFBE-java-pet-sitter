@@ -1,20 +1,18 @@
 package com.hyfbe.pet_sitter.controller;
 
 import com.hyfbe.pet_sitter.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Reference;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-    @Autowired
-    CustomerService customerService;
+
+    private final CustomerService customerService;
 
     // CONSTRUCTOR
-    public CustomerController() {
+    public CustomerController(CustomerService service) {
+        this.customerService = service;
     }
     // GET
     @GetMapping("")

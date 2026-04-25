@@ -10,10 +10,11 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    @Autowired
-    CustomerRepository crepo;
 
-    public CustomerService() {
+    private final CustomerRepository crepo;
+
+    public CustomerService(CustomerRepository repo) {
+        this.crepo = repo;
 
     }
     // GET

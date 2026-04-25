@@ -12,11 +12,10 @@ import java.util.List;
 
 @Service
 public class EmployeeService {
-    @Autowired
+
     EmployeeRepository emrepo;
-
-    public EmployeeService() {
-
+    public EmployeeService(EmployeeRepository emrepo) {
+        this.emrepo = emrepo;
     }
     // GET
     public  ResponseEntity<List<Employee>> getAllEmployees(){
