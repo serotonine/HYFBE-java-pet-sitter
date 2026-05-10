@@ -24,9 +24,9 @@ public class EmployeeController {
     @PostMapping("/add")
     public ResponseEntity<?> addEmployee(
             @RequestParam String name,
+            @RequestParam String email,
             @RequestParam(required = false) String address,
-            @RequestParam(required = false) String tel,
-            @RequestParam(required = false) String email
+            @RequestParam(required = false) String tel
     ) {
         return service.addEmployee(name, address, tel, email);
     }

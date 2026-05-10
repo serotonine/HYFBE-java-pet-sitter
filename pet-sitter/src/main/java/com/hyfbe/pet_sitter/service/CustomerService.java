@@ -42,8 +42,9 @@ public class CustomerService {
         if(email != null){
             customer.setEmail(email);
         }
-        crepo.save(customer);
-        return ResponseEntity.ok().body(customer);
+
+        Customer saved = crepo.save(customer);
+        return ResponseEntity.ok().body(saved);
     }
 
     // DELETE

@@ -110,6 +110,12 @@
 			<version>${mapstruct.version}</version>
 			<optional>true</optional> <!-- only needed at compile time, not in final jar -->
 		</dependency>
+		<!-- test -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 	<build>

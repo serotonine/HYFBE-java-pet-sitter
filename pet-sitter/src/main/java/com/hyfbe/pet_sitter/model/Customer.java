@@ -1,5 +1,7 @@
 package com.hyfbe.pet_sitter.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +47,7 @@ public class Customer {
     // FIELD USER
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonBackReference
     private User user;
 
     // PETS

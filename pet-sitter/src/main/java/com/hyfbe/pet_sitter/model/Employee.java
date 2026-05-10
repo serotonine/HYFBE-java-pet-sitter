@@ -1,6 +1,9 @@
 package com.hyfbe.pet_sitter.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,15 +37,18 @@ public class Employee {
 
     // FIELD EMAIL
     @Column(name="em_email", unique = true, length = 50)
+    @NotNull
     private String email;
 
     // FIELD USER
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonBackReference
     private User user;
 
-    public Employee(String name){
+    public Employee(String name, String email){
         this.name = name;
+        this.email= email;
     }
 
     // User
