@@ -1,8 +1,7 @@
 package com.hyfbe.pet_sitter.controller;
 
-import com.hyfbe.pet_sitter.dto.PetResponseDTO;
+import com.hyfbe.pet_sitter.dto.pet.PetResponseDTO;
 import com.hyfbe.pet_sitter.exception.PetNotFoundException;
-import com.hyfbe.pet_sitter.model.Pet;
 import com.hyfbe.pet_sitter.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

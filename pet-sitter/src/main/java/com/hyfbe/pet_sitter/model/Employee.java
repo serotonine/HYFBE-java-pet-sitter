@@ -36,6 +36,10 @@ public class Employee {
     @Column(name="em_email", unique = true, length = 50)
     private String email;
 
+    // FIELD USER
+    @OneToOne(mappedBy = "employee")
+    private User user;
+
     public Employee(String name){
         this.name = name;
     }

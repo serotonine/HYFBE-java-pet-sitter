@@ -1,6 +1,6 @@
 package com.hyfbe.pet_sitter.service;
 
-import com.hyfbe.pet_sitter.dto.PetResponseDTO;
+import com.hyfbe.pet_sitter.dto.pet.PetResponseDTO;
 import com.hyfbe.pet_sitter.exception.CustomerNotFoundException;
 import com.hyfbe.pet_sitter.exception.PetNotFoundException;
 import com.hyfbe.pet_sitter.mapper.PetMapper;

@@ -1,12 +1,24 @@
 package com.hyfbe.pet_sitter.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="ps_customer")
+@Table(
+    name="ps_customer",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uk_customer_name_email",
+            columnNames = {"cus_name", "cus_email"}
+        )
+        }
+    )
+@Getter
+@Setter
 public class Customer {
     // PRIMARY KEY
     @Id
@@ -15,7 +27,7 @@ public class Customer {
     private Long id;
 
     // FIELD NAME
-    @Column(name="cus_name", nullable = false, unique = true, length = 150)
+    @Column(name="cus_name", nullable = false, length = 150)
     private String name;
 
     // FIELD ADDRESS
@@ -30,48 +42,14 @@ public class Customer {
     @Column(name="cus_email", unique = true, length = 50)
     private String email;
 
+    // FIELD USER
+    @OneToOne(mappedBy = "customer")
+    private User user;
+
     // CONSTRUCTOR
     public Customer(){}
     public Customer(String name){
         this.name = name;
     }
 
-    // GETTERS
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    // SETTERS
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

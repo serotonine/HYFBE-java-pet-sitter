@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.5</version>
+		<version>3.4.4</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.hyfbe</groupId>
@@ -35,56 +35,83 @@
 		<lombok.version>1.18.46</lombok.version>
 		<!-- mapStruct -->
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
+		<!-- sourceEncoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+		<!-- Core JPA/Hibernate support + Spring Data repositories (JpaRepository, etc.) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
+		<!-- Spring MVC: REST controllers, @RestController, @RequestMapping, etc. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- Spring Validation: @NotNull, @Pattern etc. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 
+		<!-- AOP (Aspect Oriented Programming): @Aspect, @Around, logging, transactions -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!-- Testing: JUnit 5, Mockito, Spring Test context -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope> <!-- only available during tests, not in final jar -->
+		</dependency>
+
+		<!-- PostgreSQL JDBC driver to connect to the database -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<scope>runtime</scope> <!-- only needed at runtime, not at compile time -->
 		</dependency>
+		<!-- BCrypt -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- Swagger UI + OpenAPI 3 documentation at /swagger-ui.html -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>3.0.2</version>
+			<version>2.5.0</version>
 		</dependency>
+
+		<!-- Lombok: generates boilerplate code at compile time (@Data, @Getter, @Setter, etc.) -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
-			<optional>true</optional>
+			<optional>true</optional> <!-- not included in final jar, not transitive -->
 		</dependency>
 
+		<!-- MapStruct core: @Mapper interface and mapping annotations -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
 		</dependency>
 
+		<!-- MapStruct annotation processor: generates mapper implementations at compile time -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
 			<version>${mapstruct.version}</version>
-			<optional>true</optional>
+			<optional>true</optional> <!-- only needed at compile time, not in final jar -->
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
