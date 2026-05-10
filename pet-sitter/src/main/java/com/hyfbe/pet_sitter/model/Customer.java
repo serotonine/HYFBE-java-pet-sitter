@@ -43,13 +43,44 @@ public class Customer {
     private String email;
 
     // FIELD USER
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private User user;
+
+    // PETS
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pet> pets = new ArrayList<>();
 
     // CONSTRUCTOR
     public Customer(){}
     public Customer(String name){
         this.name = name;
+    }
+
+    // User
+    public void setUser(User user) {
+        this.user = user;
+
+        if (user != null) {
+            user.setCustomer(this);
+        }
+    }
+    public void removeUser() {
+        if (user != null) {
+            user.setCustomer(null);
+            user = null;
+        }
+    }
+
+    // Pets
+    public void addPet(Pet pet) {
+        pets.add(pet);
+        pet.setCustomer(this);
+    }
+
+    public void removePet(Pet pet) {
+        pets.remove(pet);
+        pet.setCustomer(null);
     }
 
 }

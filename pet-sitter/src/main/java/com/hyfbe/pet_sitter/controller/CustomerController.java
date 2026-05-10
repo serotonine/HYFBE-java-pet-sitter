@@ -30,4 +30,11 @@ public class CustomerController {
     ) {
         return customerService.add(name, address, tel, email);
     }
+    // DELETE
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteUser(
+            @PathVariable Long id
+    ){
+        return customerService.deleteUser(id);
+    }
 }

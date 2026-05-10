@@ -37,11 +37,27 @@ public class Employee {
     private String email;
 
     // FIELD USER
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private User user;
 
     public Employee(String name){
         this.name = name;
+    }
+
+    // User
+    public void setUser(User user) {
+        this.user = user;
+
+        if (user != null) {
+            user.setEmployee(this);
+        }
+    }
+    public void removeUser() {
+        if (user != null) {
+            user.setEmployee(null);
+            user = null;
+        }
     }
 
 }

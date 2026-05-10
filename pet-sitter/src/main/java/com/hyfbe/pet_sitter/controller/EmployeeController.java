@@ -1,8 +1,6 @@
 package com.hyfbe.pet_sitter.controller;
 
-import com.hyfbe.pet_sitter.service.CustomerService;
 import com.hyfbe.pet_sitter.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,26 +8,34 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    private final EmployeeService service;
 
     // CONSTRUCTOR
     public EmployeeController(EmployeeService service) {
-        this.employeeService = service;
+        this.service = service;
     }
     // GET
     @GetMapping("")
     public ResponseEntity<?>getAllEmployees(){
-        return employeeService.getAllEmployees();
+        return service.getAllEmployees();
     }
 
     // ADD
     @PostMapping("/add")
-    public ResponseEntity<?> addCustomer(
+    public ResponseEntity<?> addEmployee(
             @RequestParam String name,
             @RequestParam(required = false) String address,
             @RequestParam(required = false) String tel,
             @RequestParam(required = false) String email
     ) {
-        return employeeService.add(name, address, tel, email);
+        return service.addEmployee(name, address, tel, email);
+    }
+
+    // DELETE
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteEmployee(
+            @PathVariable Long id
+    ){
+        return service.deleteEmployee(id);
     }
 }
