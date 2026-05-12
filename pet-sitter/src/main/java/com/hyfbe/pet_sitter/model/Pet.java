@@ -38,7 +38,7 @@ public class Pet {
     private PetType type;
 
     //FIELD comments
-    @Column(name="pet_comment", length = 255)
+    @Column(name="pet_comment", columnDefinition = "TEXT",  length = 255)
     private byte[] comment;
 
     // Enrolment.

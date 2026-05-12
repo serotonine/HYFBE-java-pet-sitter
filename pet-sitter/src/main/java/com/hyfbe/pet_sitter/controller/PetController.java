@@ -1,14 +1,11 @@
 package com.hyfbe.pet_sitter.controller;
 
 import com.hyfbe.pet_sitter.dto.pet.PetResponseDTO;
-import com.hyfbe.pet_sitter.exception.PetNotFoundException;
 import com.hyfbe.pet_sitter.service.PetService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/pet")
@@ -22,17 +19,19 @@ public class PetController {
 
     // GET
     @GetMapping("")
-    public List<PetResponseDTO> findAllPets(){
-        return petService.findAllPets();
+    public ResponseEntity<List<PetResponseDTO>> findAllPets(){
+        List<PetResponseDTO> response = petService.findAllPets();
+        return ResponseEntity.ok().body(response);
     }
+
     @GetMapping("/{id}")
-    public PetResponseDTO findPetById(@PathVariable Long id) throws PetNotFoundException {
+    public ResponseEntity<PetResponseDTO> findPetById(@PathVariable Long id) {
         var response = petService.findPetById(id);
-        return response;
+        return ResponseEntity.ok().body(response);
     }
 
     // ADD
-    @PostMapping("/add")
+    @PostMapping("")
     public PetResponseDTO addPet(
             @RequestParam String name,
             @RequestParam Long customer,
