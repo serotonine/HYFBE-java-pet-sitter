@@ -2,12 +2,12 @@ package com.hyfbe.pet_sitter.service;
 
 import com.hyfbe.pet_sitter.dto.employee.EmployeeResponseDTO;
 import com.hyfbe.pet_sitter.enums.Role;
-import com.hyfbe.pet_sitter.exception.EntityNotFoundException;
+import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
 import com.hyfbe.pet_sitter.mapper.EmployeeMapper;
 import com.hyfbe.pet_sitter.model.Employee;
 import com.hyfbe.pet_sitter.model.User;
 import com.hyfbe.pet_sitter.repository.EmployeeRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,12 +29,12 @@ public class EmployeeService {
         this.encoder = encoder;
     }
     // GET
+    @Transactional(readOnly = true)
     public  ResponseEntity<List<Employee>> getAllEmployees(){
         return ResponseEntity.ok().body(repo.findAll());
     }
 
     // CREATE
-    @Transactional
     public ResponseEntity<?> addEmployee(String name, String address, String tel, String email ){
 
         // Employee side.
@@ -65,7 +65,7 @@ public class EmployeeService {
     // DELETE
     @Transactional
     public ResponseEntity<?> deleteEmployee(Long id){
-        Employee employee = repo.findById(id).orElseThrow(()-> new EntityNotFoundException("Employee", id));
+        Employee employee = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Employee", id));
         // TODO Check why the output set null.
         EmployeeResponseDTO dto = mapper.toResponseDTO(employee);
         System.out.println("Employee DTO : " + dto.getName() + " " + dto.getId());

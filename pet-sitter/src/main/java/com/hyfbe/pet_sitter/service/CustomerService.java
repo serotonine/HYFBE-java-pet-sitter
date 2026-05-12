@@ -1,7 +1,7 @@
 package com.hyfbe.pet_sitter.service;
 
 import com.hyfbe.pet_sitter.dto.customer.CustomerResponseDTO;
-import com.hyfbe.pet_sitter.exception.EntityNotFoundException;
+import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
 import com.hyfbe.pet_sitter.mapper.CustomerMapper;
 import com.hyfbe.pet_sitter.model.Customer;
 import com.hyfbe.pet_sitter.model.Pet;
@@ -50,7 +50,7 @@ public class CustomerService {
     // DELETE
     @Transactional
     public ResponseEntity<?> deleteUser(Long id){
-        Customer customer = crepo.findById(id).orElseThrow(()-> new EntityNotFoundException("Customer", id));
+        Customer customer = crepo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Customer", id));
         // Manually delete pets items
         List<Pet> pets = new ArrayList<>(customer.getPets());
         for(Pet pet : pets){
