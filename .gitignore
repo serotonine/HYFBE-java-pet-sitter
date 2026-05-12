@@ -31,4 +31,4 @@ replay_pid*
 **/HELP.md
 
 # hidden properties
-**/
+src/main/resources/application-dev.properties
