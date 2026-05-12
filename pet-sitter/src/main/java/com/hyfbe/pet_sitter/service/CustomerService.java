@@ -6,8 +6,7 @@ import com.hyfbe.pet_sitter.mapper.CustomerMapper;
 import com.hyfbe.pet_sitter.model.Customer;
 import com.hyfbe.pet_sitter.model.Pet;
 import com.hyfbe.pet_sitter.repository.CustomerRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +24,7 @@ public class CustomerService {
         this.mapper = mapper;
     }
     // GET
+    @Transactional(readOnly = true)
     public  ResponseEntity<List<Customer>> getAllCustomers(){
         return ResponseEntity.ok().body(crepo.findAll());
     }
