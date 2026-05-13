@@ -1,14 +1,19 @@
 package com.hyfbe.pet_sitter.handler;
 
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.Serializable;
+import java.sql.SQLException;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -36,4 +41,18 @@ public class GlobalExceptionHandler {
                 "type", dive.getClass().getSimpleName()
         );
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidDefinitionException.class)
+    public Map<String, Serializable> handleInvalidDefinitionException(InvalidDefinitionException idExc, HttpServletRequest request) {
+        return Map.of(
+                "error", idExc.getMessage().split("\n"),
+                "timestamp", Instant.now().toString(),
+                "path", request.getRequestURI(),
+                "status", String.valueOf(HttpStatus.BAD_REQUEST.value())
+                //"type", dive.getClass().getSimpleName()
+        );
+    }
+
+    // SqlExceptionHelper
 }

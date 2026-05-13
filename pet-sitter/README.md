@@ -26,46 +26,133 @@ ADMIN:
 ## TABLES
 
 USER
-when a register is created done a new customer is created 
+- When a User is created => a new Customer is created,
+- When an Employee is created => a new User is created 
 
-## TODO LIST
+
+## TODO LIST 
+### EmployeeEnrolment
+- add => response => see also activity
+### Other
+- in patch not use save but set Method
 - set the responseEntity at the Controller level
 - nulValuePropertyStrategy @BeanMapping (mapper)
 - PetResponseDTO has no customer in it - Just customer id is enought
 - Employee has no update 
 - Customer has no update
+- Implement spring security
+- PetEnrolmentMapper has a wrong uses
+- Add Test for Activity
+- Understood well @JsonManagedReference
+
+## Bora Movie example
+https://github.com/MustafaBora/spring-boot-movie/
 
 
+### Json annotations
+@JsonManagedReference et @JsonBackReference
+Ce sont deux annotations qui travaillent toujours en paire pour gérer les relations bidirectionnelles :
+@JsonManagedReference  = le côté PARENT  → sérialisé ✅
+@JsonBackReference     = le côté ENFANT  → PAS sérialisé ❌
+java// Parent — Activity
+@OneToMany(mappedBy = "activity")
+@JsonManagedReference("activity-pet")  // ← inclus dans le JSON
+private List<PetEnrolment> petEnrolments;
 
+// Enfant — PetEnrolment
+@ManyToOne
+@JsonBackReference("activity-pet")  // ← exclu du JSON
+private Activity activity;
+Résultat JSON :
+json{
+"id": 1,
+"name": "Walk",
+"petEnrolments": [        ← inclus ✅
+{ "id": 1, "pet": {...} }
+// activity n'apparaît pas ici ✅
+]
+}
 
-* The original package name 'com.hyfbe.pet-sitter' is invalid and this project uses 'com.hyfbe.pet_sitter' instead.
+Toutes les annotations @Json importantes :
 
-# Getting Started
+Gestion des champs :
+java// Exclut totalement un champ du JSON (lecture ET écriture)
+@JsonIgnore
+private String password;
 
-### Reference Documentation
-For further reference, please consider the following sections:
+// Exclut des champs spécifiques d'une autre classe
+@JsonIgnoreProperties({"password", "createdAt"})
+private User user;
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/4.0.5/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/4.0.5/maven-plugin/build-image.html)
-* [Spring Web](https://docs.spring.io/spring-boot/4.0.5/reference/web/servlet.html)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/4.0.5/reference/using/devtools.html)
-* [SpringDoc OpenAPI](https://springdoc.org/)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/4.0.5/reference/data/sql.html#data.sql.jpa-and-spring-data)
+// Exclut tous les champs inconnus à la désérialisation
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserDTO { }
 
-### Guides
-The following guides illustrate how to use some features concretely:
+// Renomme un champ dans le JSON
+@JsonProperty("first_name")
+private String firstName;
+// JSON: { "first_name": "Julie" } ↔ Java: firstName
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [SpringDoc OpenAPI](https://github.com/springdoc/springdoc-openapi-demos/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+// Inclut un champ même s'il est null
+@JsonInclude(JsonInclude.Include.ALWAYS)
+private String middleName;
 
-### Maven Parent overrides
+// Exclut les champs null du JSON
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String middleName;
+// → si null, le champ n'apparaît pas dans le JSON ✅
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+Gestion des dates :
+java// Formate une date dans le JSON
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+private LocalDateTime createdAt;
+// JSON: { "createdAt": "2026-05-12 14:30:00" }
 
+// Désérialise une date avec un format spécifique
+@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+private LocalDateTime startDate;
+
+Gestion des relations bidirectionnelles :
+java// Côté parent — inclus dans le JSON
+@JsonManagedReference
+private List<PetEnrolment> enrolments;
+
+// Côté enfant — exclu du JSON
+@JsonBackReference
+private Activity activity;
+
+Gestion du polymorphisme :
+java// Ajoute le type dans le JSON (utile pour l'héritage)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonSubTypes({
+@JsonSubTypes.Type(value = Dog.class, name = "dog"),
+@JsonSubTypes.Type(value = Cat.class, name = "cat")
+})
+public abstract class Pet { }
+// JSON: { "type": "dog", "name": "Rex" }
+
+Gestion de la sérialisation :
+java// Ajoute un wrapper autour du JSON
+@JsonRootName("user")
+public class User { }
+// JSON: { "user": { "id": 1, "name": "Julie" } }
+
+// Méthode appelée après désérialisation
+@JsonCreator
+public User(@JsonProperty("id") Long id,
+@JsonProperty("name") String name) { }
+
+// Champ calculé — ajouté au JSON mais pas en DB
+@JsonGetter("fullName")
+public String getFullName() {
+return firstName + " " + lastName;
+}
+
+// Ignore un champ à la sérialisation (lecture seule)
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+private String password;
+// → accepté en entrée (POST) mais jamais retourné en réponse ✅
+
+Résumé — les plus utiles en Spring Boot :
+AnnotationUsage@JsonIgnoreexclure un champ (ex: password)@JsonPropertyrenommer un champ@JsonInclude(NON_NULL)ne pas retourner les nulls@JsonFormatformater les dates@JsonIgnoreProperties(ignoreUnknown=true)ignorer les champs inconnus du JSON entrant@JsonManagedReferencecôté parent d'une relation@JsonBackReferencecôté enfant d'une relation@JsonProperty(WRITE_ONLY)accepter en entrée mais ne pas retourner
+Le plus utilisé au quotidien : @JsonIgnore, @JsonProperty et @JsonInclude(NON_NULL)

@@ -1,13 +1,19 @@
 package com.hyfbe.pet_sitter.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.hyfbe.pet_sitter.model.enrolment.EmployeeEnrolment;
+import com.hyfbe.pet_sitter.model.enrolment.PetEnrolment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="ps_employee")
@@ -46,12 +52,21 @@ public class Employee {
     @JsonBackReference
     private User user;
 
+    // FIELD EmmployeeEnrolments
+    // Enrolment.
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<EmployeeEnrolment> employeeEnrolments = new ArrayList<>();
+
+
     public Employee(String name, String email){
         this.name = name;
         this.email= email;
     }
 
-    // User
+
+/* ENROLMENTS */
+    // User.
     public void setUser(User user) {
         this.user = user;
 
@@ -64,6 +79,15 @@ public class Employee {
             user.setEmployee(null);
             user = null;
         }
+    }
+    // EmployeeEnrolment.
+    public void addEmployeeEnrolment(EmployeeEnrolment employeeEnrolment){
+        this.employeeEnrolments.add(employeeEnrolment);
+        employeeEnrolment.setEmployee(this);
+    }
+    public void deleteEmployeeEnrolment(EmployeeEnrolment employeeEnrolment){
+        this.employeeEnrolments.remove(employeeEnrolment);
+        employeeEnrolment.setEmployee(null);
     }
 
 }

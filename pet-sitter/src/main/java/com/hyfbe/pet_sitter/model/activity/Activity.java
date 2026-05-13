@@ -2,6 +2,7 @@ package com.hyfbe.pet_sitter.model.activity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hyfbe.pet_sitter.model.Pet;
+import com.hyfbe.pet_sitter.model.enrolment.EmployeeEnrolment;
 import com.hyfbe.pet_sitter.model.enrolment.PetEnrolment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
@@ -44,18 +45,22 @@ public class Activity {
     @Future
     private LocalDateTime endDate;
 
-    // Enrolments.
+    /* ENROLMENTS AS PARENT */
+    // Pet Enrolments.
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PetEnrolment> petEnrolments = new ArrayList<>();
+    // Employee Enrolments.
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EmployeeEnrolment> employeeEnrolments = new ArrayList<>();
 
-    // CONSTRUCTOR
+    /* CONSTRUCTOR */
     public Activity(String name, ActivityType type, LocalDateTime startDate){
         this.name = name;
         this.type = type;
         this.startDate = startDate;
     }
-    // TO STRING
+    // toString() method.
     @Override
     public String toString() {
         return this.getId() + " | "
@@ -64,7 +69,8 @@ public class Activity {
                 + this.getStartDate()
                 + " End: " + this.getEndDate();
     }
-    // Enrolments
+    /* ENROLMENTS */
+    // Pet Enrolment.
     public void addPetEnrolment(PetEnrolment petEnrolment){
         this.petEnrolments.add(petEnrolment);
         petEnrolment.setActivity(this);
@@ -72,5 +78,14 @@ public class Activity {
     public void deletePetEnrolment(PetEnrolment petEnrolment){
         this.petEnrolments.remove(petEnrolment);
         petEnrolment.setActivity(null);
+    }
+    // Employee Enrolment.
+    public void addEmployeeEnrolment(EmployeeEnrolment employeeEnrolment){
+        this.employeeEnrolments.add(employeeEnrolment);
+        employeeEnrolment.setActivity(this);
+    }
+    public void deleteEmployeeEnrolment(EmployeeEnrolment employeeEnrolment){
+        this.employeeEnrolments.remove(employeeEnrolment);
+        employeeEnrolment.setActivity(null);
     }
 }
