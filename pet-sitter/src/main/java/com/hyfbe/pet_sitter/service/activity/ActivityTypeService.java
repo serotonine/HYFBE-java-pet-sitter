@@ -16,7 +16,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Log4j2
 public class ActivityTypeService {
     private final ActivityTypeRepository repo;
     private final ActivityTypeMapper mapper;
@@ -38,7 +37,6 @@ public class ActivityTypeService {
     public ActivityTypeResponseDTO updateActivityType(Long id, ActivityTypeUpdateRequestDTO dto){
         ActivityType activityType = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("ActivityType", id));
         mapper.updateEntityFromDTO(dto, activityType);
-        log.info(activityType);
         ActivityType saved = repo.save(activityType);
         return mapper.toResponseDTO(saved);
     }

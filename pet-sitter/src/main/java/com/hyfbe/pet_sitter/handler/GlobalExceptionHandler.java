@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -54,5 +55,14 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // SqlExceptionHelper
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Map<String, Serializable> handleHttpMessageNotReadableException(HttpMessageNotReadableException hmnrExc, HttpServletRequest request) {
+        return Map.of(
+                "error", hmnrExc.getMessage().split("\n"),
+                "timestamp", Instant.now().toString(),
+                "path", request.getRequestURI(),
+                "status", String.valueOf(HttpStatus.BAD_REQUEST.value())
+        );
+    }
 }

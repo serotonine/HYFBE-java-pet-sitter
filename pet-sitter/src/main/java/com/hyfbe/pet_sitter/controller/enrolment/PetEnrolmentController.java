@@ -26,11 +26,11 @@ public class PetEnrolmentController {
 
     // POST
     @PostMapping("")
-    public ResponseEntity<PetEnrolment> getAllEnrolments(
-            @RequestParam Long activityId,
-            @RequestParam Long petId
+    public ResponseEntity<PetEnrolmentResponseDTO> getAllEnrolments(
+            @RequestParam Long activity,
+            @RequestParam Long pet
     ){
-        return ResponseEntity.ok().body(service.addEnrolment(activityId,petId));
+        return ResponseEntity.ok().body(service.addEnrolment(activity,pet));
     }
 
     // DELETE

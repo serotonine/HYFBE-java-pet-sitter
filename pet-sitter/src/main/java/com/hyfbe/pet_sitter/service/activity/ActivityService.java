@@ -34,21 +34,18 @@ public class ActivityService {
 
     // POST
     public ActivityResponseDTO addActivity(ActivityRequestDTO dto){
-        // Retrieve dto fields.
-        String name = dto.getName();
         // @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime start = dto.getStartDate();
         Long typeId = dto.getTypeId();
         // Get ActivityType Entity.
         ActivityType type = atrepo.findById(typeId).orElseThrow(() -> new PetSitterEntityNotFoundException("ActivityType", typeId));
         // Set Activity Entity.
-        Activity activity = new Activity(name, type, start );
+        Activity activity = new Activity(type.getName(), type, start );
        // activity fields
         LocalDateTime end = start.plusMinutes(type.getDurationInMinutes());
         activity.setEndDate(end);
         Activity saved = repo.save(activity);
         return mapper.toResponseDTO(saved);
-        // TODO CREATE ENROLMENT
     }
 
     // PATCH
@@ -73,7 +70,6 @@ public class ActivityService {
             activity.setEndDate(end);
         }
         Activity saved = repo.save(activity);
-        log.info("After save: " + saved.toString());
         return mapper.toResponseDTO(saved);
     }
 

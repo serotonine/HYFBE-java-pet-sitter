@@ -11,7 +11,9 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     SELECT DISTINCT a
     FROM Activity a
     LEFT JOIN FETCH a.petEnrolments pe
+    LEFT JOIN FETCH a.employeeEnrolments ee
     LEFT JOIN FETCH pe.pet
+    LEFT JOIN FETCH ee.employee
     LEFT JOIN FETCH a.type
 """)
     List<Activity> findAllComplete();

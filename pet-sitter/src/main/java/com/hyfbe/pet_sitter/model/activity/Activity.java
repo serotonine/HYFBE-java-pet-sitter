@@ -15,7 +15,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="ps_activity")
@@ -49,10 +51,10 @@ public class Activity {
     // Pet Enrolments.
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<PetEnrolment> petEnrolments = new ArrayList<>();
+    private Set<PetEnrolment> petEnrolments = new HashSet<>();
     // Employee Enrolments.
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EmployeeEnrolment> employeeEnrolments = new ArrayList<>();
+    private Set<EmployeeEnrolment> employeeEnrolments = new HashSet<>();
 
     /* CONSTRUCTOR */
     public Activity(String name, ActivityType type, LocalDateTime startDate){

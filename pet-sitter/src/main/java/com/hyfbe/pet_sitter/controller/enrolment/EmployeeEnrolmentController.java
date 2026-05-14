@@ -25,7 +25,7 @@ public class EmployeeEnrolmentController {
 
     // POST
     @PostMapping("")
-    public ResponseEntity<EmployeeEnrolment> getAllEnrolments(
+    public ResponseEntity<EmployeeEnrolmentResponseDTO> getAllEnrolments(
             @RequestParam Long activity,
             @RequestParam Long employee
     ){

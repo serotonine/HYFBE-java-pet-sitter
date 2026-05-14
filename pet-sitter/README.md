@@ -21,7 +21,7 @@ ADMIN:
 - set activity
 - delete activity
 - create activity
-- -update activity
+- update activity
 
 ## TABLES
 
@@ -29,19 +29,24 @@ USER
 - When a User is created => a new Customer is created,
 - When an Employee is created => a new User is created 
 
+## PSQL CRASH
+brew services list
+psql -U serotonine -d pet_sitter_db
+ps aux | grep postgres
+
 
 ## TODO LIST 
 ### EmployeeEnrolment
 - add => response => see also activity
 ### Other
-- in patch not use save but set Method
 - set the responseEntity at the Controller level
 - nulValuePropertyStrategy @BeanMapping (mapper)
 - PetResponseDTO has no customer in it - Just customer id is enought
 - Employee has no update 
 - Customer has no update
+- Pet has no update
 - Implement spring security
-- PetEnrolmentMapper has a wrong uses
+- PetResponseDTO does not include the customer
 - Add Test for Activity
 - Understood well @JsonManagedReference
 

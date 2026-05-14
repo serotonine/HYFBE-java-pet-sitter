@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class ActivityRequestDTO {
-    @NotBlank
-    private String name;
     @NotNull
     private Long typeId;
     @NotNull

@@ -46,6 +46,7 @@ public class CustomerService {
         Customer saved = crepo.save(customer);
         return ResponseEntity.ok().body(saved);
     }
+    // UPDATE
 
     // DELETE
     @Transactional

@@ -38,8 +38,8 @@ public class Pet {
     private PetType type;
 
     //FIELD comments
-    @Column(name="pet_comment", columnDefinition = "TEXT",  length = 255)
-    private byte[] comment;
+    @Column(name="pet_comment", columnDefinition = "TEXT",  length = 500)
+    private String comment;
 
     // Enrolment.
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -85,7 +85,7 @@ public class Pet {
         return type;
     }
 
-    public byte[] getComment(){
+    public String getComment(){
         return comment;
     }
 
@@ -107,7 +107,7 @@ public class Pet {
         this.type = type;
     }
 
-    public void setComment(byte[] comment) {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 }

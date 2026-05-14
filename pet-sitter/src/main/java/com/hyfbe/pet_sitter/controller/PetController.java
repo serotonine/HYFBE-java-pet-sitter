@@ -37,7 +37,7 @@ public class PetController {
             @RequestParam Long customer,
             @RequestParam(required = false) Long type,
             @RequestParam(required = false) Integer age,
-            @RequestParam(required = false) byte[] comment
+            @RequestParam(required = false) String comment
     ) {
         return petService.add(name, customer, type, age, comment);
     }

@@ -37,11 +37,12 @@ public class EmployeeEnrolmentService {
     }
 
     // POST
-    public EmployeeEnrolment addEnrolment(Long activityId, Long employeeId ){
+    public EmployeeEnrolmentResponseDTO addEnrolment(Long activityId, Long employeeId ){
         Employee employee = eRepo.findById(employeeId).orElseThrow(()-> new PetSitterEntityNotFoundException("Employee", employeeId));
        Activity activity = activityRepo.findById(activityId).orElseThrow(()-> new PetSitterEntityNotFoundException("Activity", employeeId));
         EmployeeEnrolment ee = new EmployeeEnrolment(activity, employee);
         activity.addEmployeeEnrolment(ee);
-        return repo.save(ee);
+        EmployeeEnrolment saved = repo.save(ee);
+        return mapper.toResponseDTO(saved);
     }
 }

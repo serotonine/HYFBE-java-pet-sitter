@@ -38,7 +38,7 @@ public class PetService {
     }
 
     // CREATE
-    public PetResponseDTO add(String name, Long customerId, Long typeId, Integer age, byte[] comment){
+    public PetResponseDTO add(String name, Long customerId, Long typeId, Integer age, String comment){
 
         Customer customer = crepo.findById(customerId).orElseThrow(() -> new PetSitterEntityNotFoundException("Customer", customerId));
         Pet pet = new Pet(name,customer);
@@ -56,4 +56,7 @@ public class PetService {
         prepo.save(pet);
         return mapper.toResponseDTO(pet);
     }
+    
+    // PATCH
+
 }

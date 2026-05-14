@@ -31,11 +31,12 @@ public class PetEnrolmentService {
     }
 
     // POST
-    public PetEnrolment addEnrolment(Long activityId,Long petId ){
+    public PetEnrolmentResponseDTO addEnrolment(Long activityId,Long petId ){
         Pet pet = petRepo.findById(petId).orElseThrow(()-> new PetSitterEntityNotFoundException("Pet", petId));
        Activity activity = activityRepo.findById(activityId).orElseThrow(()-> new PetSitterEntityNotFoundException("Activity", petId));
         PetEnrolment pe = new PetEnrolment(activity, pet);
         activity.addPetEnrolment(pe);
-        return repo.save(pe);
+        PetEnrolment saved =  repo.save(pe);
+        return mapper.toResponseDTO(saved);
     }
 }
