@@ -1,17 +1,13 @@
 package com.hyfbe.pet_sitter.dto.pet;
 
-import com.hyfbe.pet_sitter.dto.customer.CustomerResponseDTO;
 import com.hyfbe.pet_sitter.model.PetType;
 import lombok.Data;
 
 @Data
-public class PetResponseDTO {
+public class PetShortResponseDTO {
     private String name;
     private Long id;
     private PetType type;
     private Integer age;
     private String comment;
-    // Custom field
-    private Long customerId;
-    private String customerName;
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 public class ActivityType {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="at_id")
     private Long id;
 

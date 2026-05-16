@@ -1,6 +1,5 @@
 package com.hyfbe.pet_sitter.model.enrolment;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hyfbe.pet_sitter.model.Pet;
 import com.hyfbe.pet_sitter.model.activity.Activity;

@@ -1,7 +1,6 @@
 package com.hyfbe.pet_sitter.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name="ps_pet_type")

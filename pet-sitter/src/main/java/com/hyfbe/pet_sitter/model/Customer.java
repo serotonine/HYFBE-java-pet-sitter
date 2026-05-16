@@ -29,19 +29,19 @@ public class Customer {
     private Long id;
 
     // FIELD NAME
-    @Column(name="cus_name", nullable = false, length = 150)
+    @Column(name="cus_name", length = 150)
     private String name;
 
     // FIELD ADDRESS
     @Column(name="cus_address")
     private String address;
 
-    // FIELD TELEPHON
+    // FIELD TELEPHONE
     @Column(name="cus_tel", unique = true, length = 50)
     private String tel;
 
     // FIELD EMAIL
-    @Column(name="cus_email", unique = true, length = 50)
+    @Column(name="cus_email", unique = true, length = 254)
     private String email;
 
     // FIELD USER

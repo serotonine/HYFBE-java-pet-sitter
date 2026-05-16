@@ -31,9 +31,10 @@ public class PetEnrolmentService {
     }
 
     // POST
+    @Transactional
     public PetEnrolmentResponseDTO addEnrolment(Long activityId,Long petId ){
         Pet pet = petRepo.findById(petId).orElseThrow(()-> new PetSitterEntityNotFoundException("Pet", petId));
-       Activity activity = activityRepo.findById(activityId).orElseThrow(()-> new PetSitterEntityNotFoundException("Activity", petId));
+       Activity activity = activityRepo.findById(activityId).orElseThrow(()-> new PetSitterEntityNotFoundException("Activity", activityId));
         PetEnrolment pe = new PetEnrolment(activity, pet);
         activity.addPetEnrolment(pe);
         PetEnrolment saved =  repo.save(pe);

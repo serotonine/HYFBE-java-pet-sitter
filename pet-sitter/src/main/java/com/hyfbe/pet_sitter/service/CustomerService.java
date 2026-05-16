@@ -1,65 +1,84 @@
 package com.hyfbe.pet_sitter.service;
 
+import com.hyfbe.pet_sitter.dto.customer.CustomerCompleteResponseDTO;
+import com.hyfbe.pet_sitter.dto.customer.CustomerRequestDTO;
 import com.hyfbe.pet_sitter.dto.customer.CustomerResponseDTO;
+import com.hyfbe.pet_sitter.dto.customer.CustomerUpdateDTO;
 import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
 import com.hyfbe.pet_sitter.mapper.CustomerMapper;
 import com.hyfbe.pet_sitter.model.Customer;
 import com.hyfbe.pet_sitter.model.Pet;
+import com.hyfbe.pet_sitter.model.User;
 import com.hyfbe.pet_sitter.repository.CustomerRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Log4j2
 public class CustomerService {
 
-    private final CustomerRepository crepo;
+    private final CustomerRepository repo;
     private final CustomerMapper mapper;
 
     public CustomerService(CustomerRepository repo, CustomerMapper mapper) {
-        this.crepo = repo;
+        this.repo = repo;
         this.mapper = mapper;
     }
     // GET
     @Transactional(readOnly = true)
-    public  ResponseEntity<List<Customer>> getAllCustomers(){
-        return ResponseEntity.ok().body(crepo.findAll());
+    public  List<CustomerCompleteResponseDTO> getAllCustomers(){
+        List<Customer> customers = repo.findAll();
+        return customers.stream().map(mapper::toCompleteResponseDTO).collect(Collectors.toList());
     }
 
-    // CREATE
-    public ResponseEntity<?> add(String name, String address, String tel, String email){
-        Customer customer = new Customer(name);
+    /**
+     *
+     * NO CREATE METHOD.
+     * A Customer Entity is created ONLY After a User Entity creation.
+     * CUSTOMER IS A USER DEPENDENCY.
+     *
+     */
 
-        if(address != null){
-            customer.setAddress(address);
+    // UPDATE
+    @Transactional // Better is someone is deleting associated User or Pet or Activity.
+    public CustomerCompleteResponseDTO updateCustomer(Long id, CustomerUpdateDTO dto) {
+        Customer customer = repo.findById(id).orElseThrow(() -> new PetSitterEntityNotFoundException("Customer", id));
+        String name = dto.getName();
+        String email = dto.getEmail();
+        String tel = dto.getTel();
+        String address = dto.getAddress();
+
+        if (name != null) {
+            customer.setName(name);
         }
-        if(tel != null){
+        if (email != null) {
+            customer.setEmail(email);
+            // Synchronize User name (password)
+            User user = customer.getUser();
+            if (user != null) {
+                user.setName(email);
+            }
+        }
+        if (tel != null) {
             customer.setTel(tel);
         }
-        if(email != null){
-            customer.setEmail(email);
+        if (address != null) {
+            customer.setAddress(address);
         }
-
-        Customer saved = crepo.save(customer);
-        return ResponseEntity.ok().body(saved);
+        repo.save(customer);
+        return mapper.toCompleteResponseDTO(customer);
     }
-    // UPDATE
 
     // DELETE
-    @Transactional
-    public ResponseEntity<?> deleteUser(Long id){
-        Customer customer = crepo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Customer", id));
-        // Manually delete pets items
-        List<Pet> pets = new ArrayList<>(customer.getPets());
-        for(Pet pet : pets){
-            customer.removePet(pet);
-        }
+    @Transactional // Better is someone is deleting associated User or Pet or Activity.
+    public CustomerResponseDTO deleteCustomer(Long id){
+        Customer customer = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Customer", id));
         CustomerResponseDTO dto = mapper.toResponseDTO(customer);
-        crepo.delete(customer);
-        crepo.flush();
-        return ResponseEntity.ok("Customer removed : " + dto);
+        repo.delete(customer);
+        return dto;
     }
 }

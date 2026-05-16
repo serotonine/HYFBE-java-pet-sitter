@@ -1,41 +1,42 @@
 package com.hyfbe.pet_sitter.service;
 
+import com.hyfbe.pet_sitter.dto.employee.EmployeeCompleteResponseDTO;
 import com.hyfbe.pet_sitter.dto.employee.EmployeeResponseDTO;
+import com.hyfbe.pet_sitter.dto.employee.EmployeeUpdateDTO;
 import com.hyfbe.pet_sitter.enums.Role;
 import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
 import com.hyfbe.pet_sitter.mapper.EmployeeMapper;
 import com.hyfbe.pet_sitter.model.Employee;
 import com.hyfbe.pet_sitter.model.User;
 import com.hyfbe.pet_sitter.repository.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeService {
 
-    EmployeeRepository repo;
-    EmployeeMapper mapper;
-    UserService uService;
-    PasswordEncoder encoder;
-    public EmployeeService(EmployeeRepository repo, EmployeeMapper mapper, UserService uService, PasswordEncoder encoder ) {
-        this.repo = repo;
-        this.mapper = mapper;
-        this.uService = uService;
-        this.encoder = encoder;
-    }
+    private final EmployeeRepository repo;
+    private final EmployeeMapper mapper;
+    private final UserService uService;
+    private final PasswordEncoder encoder;
+
     // GET
     @Transactional(readOnly = true)
-    public  ResponseEntity<List<Employee>> getAllEmployees(){
-        return ResponseEntity.ok().body(repo.findAll());
+    public  List<EmployeeCompleteResponseDTO> getAllEmployees(){
+        List<Employee> employees = repo.findAll();
+        return employees.stream().map(mapper::toCompleteResponseDTO).collect(Collectors.toList());
     }
 
     // CREATE
-    public ResponseEntity<?> addEmployee(String name, String address, String tel, String email ){
+    @Transactional
+    public EmployeeCompleteResponseDTO addEmployee(String name, String address, String tel, String email ){
 
         // Employee side.
         Employee employee = new Employee(name, email);
@@ -59,18 +60,39 @@ public class EmployeeService {
         // link employee on user side.
         user.setEmployee(saved);
 
-        return ResponseEntity.ok().body(saved);
+        return mapper.toCompleteResponseDTO(saved);
+    }
+
+    // PATCH
+    @Transactional
+    public EmployeeResponseDTO updateEmployee(Long id, EmployeeUpdateDTO dto){
+        Employee employee = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Employee", id));
+        String name = dto.getName();
+        String email = dto.getEmail();
+        String address = dto.getAddress();
+        String tel = dto.getTel();
+        if(name !=null){
+            employee.setName(name);
+        }
+        if(email !=null){
+            employee.setEmail(email);
+        }
+        if(address !=null){
+            employee.setAddress(address);
+        }
+        if(tel !=null){
+            employee.setTel(tel);
+        }
+        repo.save(employee);
+        return mapper.toResponseDTO(employee);
     }
 
     // DELETE
     @Transactional
-    public ResponseEntity<?> deleteEmployee(Long id){
+    public EmployeeResponseDTO deleteEmployee(Long id){
         Employee employee = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Employee", id));
-        // TODO Check why the output set null.
         EmployeeResponseDTO dto = mapper.toResponseDTO(employee);
-        System.out.println("Employee DTO : " + dto.getName() + " " + dto.getId());
         repo.delete(employee);
-        repo.flush();
-        return ResponseEntity.ok("Employee removed : " + dto);
+        return  dto;
     }
 }

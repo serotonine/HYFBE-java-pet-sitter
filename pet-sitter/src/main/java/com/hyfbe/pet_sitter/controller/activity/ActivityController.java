@@ -4,17 +4,17 @@ import com.hyfbe.pet_sitter.dto.activity.ActivityRequestDTO;
 import com.hyfbe.pet_sitter.dto.activity.ActivityResponseDTO;
 import com.hyfbe.pet_sitter.dto.activity.ActivityUpdateRequestDTO;
 import com.hyfbe.pet_sitter.service.activity.ActivityService;
-import com.hyfbe.pet_sitter.service.activity.ActivityService;
-import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 
+import java.net.URI;
 import java.util.List;
 
 @Log4j2
 @RestController
-@RequestMapping("api/v1/activity")
+@RequestMapping("/api/v1/activity")
 public class ActivityController {
 
     private final ActivityService service;
@@ -25,7 +25,7 @@ public class ActivityController {
 
     // GET
     @GetMapping("")
-    public ResponseEntity<List<ActivityResponseDTO>> findAllfindAllActivity(){
+    public ResponseEntity<List<ActivityResponseDTO>> findAllActivity(){
         return ResponseEntity.ok().body(service.findAllActivity());
     }
 
@@ -34,7 +34,8 @@ public class ActivityController {
     public ResponseEntity<ActivityResponseDTO> addActivity(
             @Valid @RequestBody ActivityRequestDTO dto
     ) {
-        return ResponseEntity.ok().body(service.addActivity(dto));
+        ActivityResponseDTO created = service.addActivity(dto);
+        return ResponseEntity.created(URI.create("/api/v1/activity/" + created.getId())).body(created);
     }
 
     // UPDATE
@@ -48,7 +49,7 @@ public class ActivityController {
 
     // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<ActivityResponseDTO> updateActivity(
+    public ResponseEntity<ActivityResponseDTO> deleteActivity(
             @PathVariable Long id
     ){
         return ResponseEntity.ok().body(service.deleteActivity(id));

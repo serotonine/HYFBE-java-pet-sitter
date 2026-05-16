@@ -1,40 +1,57 @@
 package com.hyfbe.pet_sitter.controller;
 
+import com.hyfbe.pet_sitter.dto.customer.CustomerCompleteResponseDTO;
+import com.hyfbe.pet_sitter.dto.customer.CustomerResponseDTO;
+import com.hyfbe.pet_sitter.dto.customer.CustomerUpdateDTO;
 import com.hyfbe.pet_sitter.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/v1/customer")
+@RequestMapping("/api/v1/customer")
 public class CustomerController {
 
-    private final CustomerService customerService;
+    private final CustomerService service;
 
     // CONSTRUCTOR
     public CustomerController(CustomerService service) {
-        this.customerService = service;
+        this.service = service;
     }
     // GET
-    @GetMapping("")
-    public ResponseEntity<?>getAllCustomers(){
-        return customerService.getAllCustomers();
+    @GetMapping
+    public ResponseEntity<List<CustomerCompleteResponseDTO>>getAllCustomers(){
+        List<CustomerCompleteResponseDTO> customers = service.getAllCustomers();
+        return ResponseEntity.ok().body(customers);
     }
 
-    // ADD
-    @PostMapping("/add")
-    public ResponseEntity<?> addCustomer(
-            @RequestParam String name,
-            @RequestParam(required = false) String address,
-            @RequestParam(required = false) String tel,
-            @RequestParam(required = false) String email
-    ) {
-        return customerService.add(name, address, tel, email);
+    /**
+     *
+     * NO CREATE METHOD.
+     * A Customer Entity is created ONLY After a User Entity creation.
+     * CUSTOMER IS A USER DEPENDENCY.
+     *
+     */
+
+    // PATCH
+    @PatchMapping("/{id}")
+    public ResponseEntity<CustomerCompleteResponseDTO> updateCustomer(
+            @PathVariable Long id,
+            @Valid @RequestBody CustomerUpdateDTO dto
+            ){
+        CustomerCompleteResponseDTO updated = service.updateCustomer(id, dto);
+        return ResponseEntity.ok(updated);
     }
+
+
     // DELETE
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteUser(
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> deleteCustomer(
             @PathVariable Long id
     ){
-        return customerService.deleteUser(id);
+        CustomerResponseDTO deleted = service.deleteCustomer(id);
+        return ResponseEntity.ok(deleted);
     }
 }

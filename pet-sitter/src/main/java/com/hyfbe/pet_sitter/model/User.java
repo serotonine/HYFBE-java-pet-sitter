@@ -15,9 +15,10 @@ import lombok.Setter;
         name="ps_user",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_user_name_password",
-                        columnNames = {"use_name", "use_password"}
+                        name = "uk_user_name",
+                        columnNames = {"use_name"}
                 )
+
         }
 )
 @Setter
@@ -50,13 +51,13 @@ public class User {
      * But Customer is still transient.
      * So Hibernate throws exception.
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "customer_id")
     @JsonManagedReference
     private Customer customer;
 
     // Employee
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "employee_id")
     @JsonManagedReference
     private Employee employee;
@@ -65,7 +66,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name="use_role")
     @NotNull
-    Role role = Role.CUSTOMER;
+    private Role role = Role.CUSTOMER;
 
     public User(String name, String password){
         this.name = name;

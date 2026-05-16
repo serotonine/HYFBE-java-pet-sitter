@@ -1,12 +1,11 @@
 package com.hyfbe.pet_sitter.mapper.enrolment;
 
 import com.hyfbe.pet_sitter.dto.enrolment.PetEnrolmentForActivityResponseDTO;
-import com.hyfbe.pet_sitter.dto.enrolment.PetEnrolmentResponseDTO;
 import com.hyfbe.pet_sitter.model.enrolment.PetEnrolment;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

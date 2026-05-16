@@ -1,6 +1,5 @@
 package com.hyfbe.pet_sitter.dto.activity;
 
-import com.hyfbe.pet_sitter.enums.AType;
 import lombok.Data;
 
 @Data

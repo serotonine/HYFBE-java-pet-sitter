@@ -27,6 +27,7 @@ public class ActivityTypeService {
     }
 
     // POST
+    @Transactional
     public ActivityTypeResponseDTO addActivityType(ActivityTypeRequestDTO dto){
         ActivityType at = mapper.toEntity(dto);
         ActivityType saved = repo.save(at);
@@ -34,6 +35,7 @@ public class ActivityTypeService {
     }
 
     // PATCH
+    @Transactional
     public ActivityTypeResponseDTO updateActivityType(Long id, ActivityTypeUpdateRequestDTO dto){
         ActivityType activityType = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("ActivityType", id));
         mapper.updateEntityFromDTO(dto, activityType);
@@ -42,6 +44,7 @@ public class ActivityTypeService {
     }
 
     // DELETE
+    @Transactional
     public ActivityTypeResponseDTO deleteActivityType(Long id){
         ActivityType activityType = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("ActivityType", id));
         repo.delete(activityType);

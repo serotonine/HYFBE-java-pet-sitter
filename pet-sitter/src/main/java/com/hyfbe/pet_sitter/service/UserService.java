@@ -2,6 +2,7 @@ package com.hyfbe.pet_sitter.service;
 
 import com.hyfbe.pet_sitter.dto.user.UserRequestDTO;
 import com.hyfbe.pet_sitter.dto.customer.CustomerRequestDTO;
+import com.hyfbe.pet_sitter.dto.user.UserResponseDTO;
 import com.hyfbe.pet_sitter.enums.Role;
 import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
 import com.hyfbe.pet_sitter.mapper.CustomerMapper;
@@ -15,8 +16,10 @@ import com.hyfbe.pet_sitter.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,15 +32,18 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     // GET
-    public List<User> getAllUsers(){
-        return repo.findAll();
+    @Transactional(readOnly = true)
+    public List<UserResponseDTO> getAllUsers(){
+        List<User> users = repo.findAll();
+        return users.stream().map(mapper::toResponseDTO).collect(Collectors.toList());
     }
     // Check if an employee has a row.
     public boolean employeeExist(Long id){
         return repo.existsByEmployeeId(id);
     }
 
-    //POST
+    // POST
+    @Transactional
     public User addUser(UserRequestDTO dto ){
         // User
         String password = encoder.encode(dto.getPassword());
@@ -56,8 +62,8 @@ public class UserService {
         // TODO in Employee & Customer user field = null;
         return repo.save(user);
     }
-
-    public User addUser(CustomerRequestDTO customerDTO ){
+    // ON REGISTER A NEW CUSTOMER IS CREATED.
+    public UserResponseDTO addUser(CustomerRequestDTO customerDTO ){
         // User
         String password = encoder.encode(customerDTO.getPassword());
         User user = new User(customerDTO.getEmail(), password);
@@ -72,7 +78,7 @@ public class UserService {
 
         User saved = repo.save(user);
 
-        return saved;
+        return mapper.toResponseDTO(saved);
     }
 
 }

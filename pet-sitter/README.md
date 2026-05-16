@@ -41,14 +41,18 @@ ps aux | grep postgres
 ### Other
 - set the responseEntity at the Controller level
 - nulValuePropertyStrategy @BeanMapping (mapper)
-- PetResponseDTO has no customer in it - Just customer id is enought
-- Employee has no update 
-- Customer has no update
-- Pet has no update
+- set the responseEntity at the Controller level on Employee
 - Implement spring security
-- PetResponseDTO does not include the customer
 - Add Test for Activity
 - Understood well @JsonManagedReference
+- add save pet on create customer
+- UserResponseDTO to do
+-
+---
+Bugs & Refactoring — Pet Sitter Application
+
+  
+
 
 ## Bora Movie example
 https://github.com/MustafaBora/spring-boot-movie/

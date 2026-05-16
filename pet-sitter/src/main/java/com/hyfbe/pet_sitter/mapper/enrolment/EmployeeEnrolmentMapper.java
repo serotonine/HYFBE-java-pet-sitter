@@ -1,7 +1,7 @@
 package com.hyfbe.pet_sitter.mapper.enrolment;
 
+import com.hyfbe.pet_sitter.dto.enrolment.EmployeeEnrolmentForEmployeeResponseDTO;
 import com.hyfbe.pet_sitter.dto.enrolment.EmployeeEnrolmentResponseDTO;
-import com.hyfbe.pet_sitter.mapper.activity.ActivityShortMapper;
 import com.hyfbe.pet_sitter.model.enrolment.EmployeeEnrolment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,4 +17,11 @@ public interface EmployeeEnrolmentMapper {
     @Mapping(source="activity.startDate", target="startDate")
     @Mapping(source="activity.endDate", target="endDate")
     EmployeeEnrolmentResponseDTO toResponseDTO(EmployeeEnrolment employeeEnrolment);
+
+    @Mapping(source = "id",                target = "enrolmentId")
+    @Mapping(source = "activity.id",       target = "activityId")
+    @Mapping(source = "activity.name",     target = "activityName")
+    @Mapping(source = "activity.startDate",target = "startDate")
+    @Mapping(source = "activity.endDate",  target = "endDate")
+    EmployeeEnrolmentForEmployeeResponseDTO toShortResponseDTO(EmployeeEnrolment employeeEnrolment);
 }

@@ -5,12 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class PetEnrolmentResponseDTO {
+public class EmployeeEnrolmentForEmployeeResponseDTO {
     private Long enrolmentId;
-    private String petName;
-    private Long petId;
-    private String activityName;
     private Long activityId;
+    private String activityName;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 }

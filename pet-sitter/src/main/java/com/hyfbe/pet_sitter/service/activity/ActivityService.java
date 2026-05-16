@@ -26,15 +26,13 @@ public class ActivityService {
     // GET
     @Transactional(readOnly = true)
     public List<ActivityResponseDTO> findAllActivity(){
-        List<Activity> list = repo.findAllComplete();
-        list.forEach(act-> log.info(act.getPetEnrolments()));
         return repo.findAllComplete().stream().map(mapper::toResponseDTO).toList();
-       // return repo.findAll().stream().map(mapper::toResponseDTO).toList();
     }
 
     // POST
+    @Transactional
     public ActivityResponseDTO addActivity(ActivityRequestDTO dto){
-        // @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+        // @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm")
         LocalDateTime start = dto.getStartDate();
         Long typeId = dto.getTypeId();
         // Get ActivityType Entity.
@@ -49,6 +47,7 @@ public class ActivityService {
     }
 
     // PATCH
+    @Transactional
     public ActivityResponseDTO updateActivity(Long id, ActivityUpdateRequestDTO dto){
         Activity activity = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Activity", id));
 
@@ -74,6 +73,7 @@ public class ActivityService {
     }
 
     // DELETE
+    @Transactional
     public ActivityResponseDTO deleteActivity(Long id){
         Activity activity = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Activity", id));
         repo.delete(activity);

@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class PetSitterEntityNotFoundException extends NoSuchElementException {
-    public PetSitterEntityNotFoundException(String entitity, Long id){
-        super(entitity + " with id: " + id +" does not exists.");
+    public PetSitterEntityNotFoundException(String entity, Long id){
+        super(entity + " with id: " + id +" does not exist.");
     }
 }

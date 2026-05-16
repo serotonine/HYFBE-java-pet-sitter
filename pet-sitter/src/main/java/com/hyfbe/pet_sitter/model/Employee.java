@@ -42,7 +42,7 @@ public class Employee {
     private String tel;
 
     // FIELD EMAIL
-    @Column(name="em_email", unique = true, length = 50)
+    @Column(name="em_email", unique = true, length = 254)
     @NotNull
     private String email;
 
@@ -52,7 +52,7 @@ public class Employee {
     @JsonBackReference
     private User user;
 
-    // FIELD EmmployeeEnrolments
+    // FIELD EmployeeEnrolments
     // Enrolment.
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

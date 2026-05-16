@@ -5,12 +5,18 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hyfbe.pet_sitter.model.enrolment.PetEnrolment;
 import jakarta.persistence.*;
 import com.hyfbe.pet_sitter.model.PetType;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="ps_pet")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Pet {
 
     @Id
@@ -47,7 +53,6 @@ public class Pet {
     private List<PetEnrolment> petEnrolments = new ArrayList<>();
 
     // CONSTRUCTOR
-    public Pet(){}
     public Pet(String name, Customer customer){
         this.name = name;
         this.customer = customer;
@@ -61,53 +66,5 @@ public class Pet {
     public void deletePetEnrolment(PetEnrolment petEnrolment){
         this.petEnrolments.remove(petEnrolment);
         petEnrolment.setPet(null);
-    }
-
-    // GETTERS.
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public PetType getType() {
-        return type;
-    }
-
-    public String getComment(){
-        return comment;
-    }
-
-    // SETTERS.
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public void setType(PetType type) {
-        this.type = type;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 }
