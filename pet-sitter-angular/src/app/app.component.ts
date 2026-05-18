@@ -6,8 +6,7 @@ import { HeaderComponent } from './components/header/header.component';
 @Component({
     selector: 'app-root',
     imports: [RouterOutlet, LayoutModule, HeaderComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
   title = 'pet-sitter-angular';

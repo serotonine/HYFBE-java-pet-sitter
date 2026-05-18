@@ -38,15 +38,13 @@ ps aux | grep postgres
 ### EmployeeEnrolment
 - add => response => see also activity
 ### Other
-- set the responseEntity at the Controller level
 - nulValuePropertyStrategy @BeanMapping (mapper)
 - set the responseEntity at the Controller level on Employee
-- Implement spring security
 - Add Test for Activity
 - Understood well @JsonManagedReference
 - add save pet on create customer
 - UserResponseDTO to do
-
+- set pagination for activities
 ## Bora Movie example
 https://github.com/MustafaBora/spring-boot-movie/
 

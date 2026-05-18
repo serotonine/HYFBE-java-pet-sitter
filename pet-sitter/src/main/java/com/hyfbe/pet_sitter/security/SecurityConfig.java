@@ -57,7 +57,7 @@ public class SecurityConfig {
                         // EMPLOYEE
 
                         // ADMIN can do everything else
-                        .anyRequest().authenticated()
+                        .anyRequest().anonymous()
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, e) -> {
