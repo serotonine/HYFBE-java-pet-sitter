@@ -4,11 +4,10 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { HeaderComponent } from './components/header/header.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, LayoutModule, HeaderComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, LayoutModule, HeaderComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'pet-sitter-angular';
