@@ -3,9 +3,13 @@ package com.hyfbe.pet_sitter.controller;
 import com.hyfbe.pet_sitter.dto.customer.CustomerCompleteResponseDTO;
 import com.hyfbe.pet_sitter.dto.customer.CustomerResponseDTO;
 import com.hyfbe.pet_sitter.dto.customer.CustomerUpdateDTO;
+import com.hyfbe.pet_sitter.model.Customer;
+import com.hyfbe.pet_sitter.model.User;
 import com.hyfbe.pet_sitter.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +29,23 @@ public class CustomerController {
     public ResponseEntity<List<CustomerCompleteResponseDTO>>getAllCustomers(){
         List<CustomerCompleteResponseDTO> customers = service.getAllCustomers();
         return ResponseEntity.ok().body(customers);
+    }
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<CustomerCompleteResponseDTO> getCustomerByUserId(
+            Authentication authentication
+    ){
+        CustomerCompleteResponseDTO dto = service.getCustomerByUserId(authentication);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CustomerCompleteResponseDTO> getCustomerById(
+            @PathVariable Long id
+    ){
+        CustomerCompleteResponseDTO customer = service.getCustomerById(id);
+        return ResponseEntity.ok().body(customer);
     }
 
     /**

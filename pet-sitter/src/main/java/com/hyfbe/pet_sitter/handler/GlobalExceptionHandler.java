@@ -1,6 +1,7 @@
 package com.hyfbe.pet_sitter.handler;
 
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
+import com.hyfbe.pet_sitter.exception.PetSitterEntityActivityMaxPetException;
 import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
@@ -23,7 +24,7 @@ public class GlobalExceptionHandler {
     // FindById()
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(PetSitterEntityNotFoundException.class)
-    public Map<String, String> handleMovieNotFound(PetSitterEntityNotFoundException psenfe) {
+    public Map<String, String> handlePetSitterEntityNotFoundException(PetSitterEntityNotFoundException psenfe) {
         return Map.of(
                 "error", psenfe.getMessage(),
                 "timestamp", Instant.now().toString(),
@@ -76,6 +77,26 @@ public class GlobalExceptionHandler {
                 "timestamp", Instant.now().toString(),
                 "path", request.getRequestURI(),
                 "status", String.valueOf(HttpStatus.BAD_REQUEST.value())
+        );
+    }
+    // PetSitterEntityActivityMaxPetException
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(PetSitterEntityActivityMaxPetException.class)
+    public Map<String, Serializable> handleHttpMessageNotReadableException(PetSitterEntityActivityMaxPetException maxExc, HttpServletRequest request) {
+        return Map.of(
+                "error", maxExc.getMessage(),
+                "path", request.getRequestURI(),
+                "status", String.valueOf(HttpStatus.BAD_REQUEST.value())
+        );
+    }
+    // IllegalArgumentException
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Map<String, Serializable> handleHttpMessageNotReadableException(IllegalArgumentException illExc, HttpServletRequest request) {
+        return Map.of(
+                "error", illExc.getMessage(),
+                "path", request.getRequestURI(),
+                "status", String.valueOf(HttpStatus.FORBIDDEN.value())
         );
     }
 }

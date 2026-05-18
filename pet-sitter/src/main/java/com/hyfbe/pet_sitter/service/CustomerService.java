@@ -11,10 +11,14 @@ import com.hyfbe.pet_sitter.model.Pet;
 import com.hyfbe.pet_sitter.model.User;
 import com.hyfbe.pet_sitter.repository.CustomerRepository;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +37,23 @@ public class CustomerService {
     public  List<CustomerCompleteResponseDTO> getAllCustomers(){
         List<Customer> customers = repo.findAll();
         return customers.stream().map(mapper::toCompleteResponseDTO).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public CustomerCompleteResponseDTO  getCustomerById(Long id){
+        Customer customer = repo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Customer", id));
+        return mapper.toCompleteResponseDTO(customer);
+
+    }
+    @Transactional(readOnly = true)
+    public CustomerCompleteResponseDTO getCustomerByUserId( Authentication authentication){
+        User currentUser = (User) authentication.getPrincipal();
+        if (currentUser.getCustomer() == null) {
+            throw new PetSitterEntityNotFoundException("Customer", null);
+        }
+        Long id = currentUser.getCustomer().getId();
+        Customer customer = repo.findById(id)
+                .orElseThrow(()-> new PetSitterEntityNotFoundException("Customer", id));
+        return mapper.toCompleteResponseDTO(customer);
     }
 
     /**

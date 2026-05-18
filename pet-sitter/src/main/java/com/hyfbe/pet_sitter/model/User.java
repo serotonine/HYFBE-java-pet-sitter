@@ -33,7 +33,7 @@ public class User {
 
     // Name
     @Column(name="use_name")
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "Email is required")
     private String name;
 
     // Password

@@ -28,7 +28,7 @@ public class PetEnrolmentController {
     public ResponseEntity<PetEnrolmentResponseDTO> addEnrolment(
             @RequestParam Long activity,
             @RequestParam Long pet
-    ){
+    ) throws Exception {
         PetEnrolmentResponseDTO created = service.addEnrolment(activity,pet);
         return ResponseEntity.created(URI.create("/api/v1/pet/enrolment/" + created.getEnrolmentId())).body(created);
     }

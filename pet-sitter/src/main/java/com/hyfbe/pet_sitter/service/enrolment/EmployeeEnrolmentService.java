@@ -52,7 +52,7 @@ public class EmployeeEnrolmentService {
         //Check if the employee is already enroled in an overlap activity.
         Optional<Long> overlap =  repo.employeeEnrolmentOverlap(employee, activity.getStartDate(), activity.getEndDate());
         if(overlap.isPresent()){
-            throw new DuplicateKeyException("This employee is already enrolled in activity " + overlap);
+            throw new DuplicateKeyException("This employee is already enrolled in activity " + overlap.get());
         }
        EmployeeEnrolment ee = new EmployeeEnrolment(activity, employee);
 

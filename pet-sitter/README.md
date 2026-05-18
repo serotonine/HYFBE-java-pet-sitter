@@ -7,7 +7,6 @@ CUSTOMER:
 - add owned pet
 - delete owned pet
 - join activity
-Quand 
 
 EMPLOYEE:
 - set vacancy
@@ -47,12 +46,6 @@ ps aux | grep postgres
 - Understood well @JsonManagedReference
 - add save pet on create customer
 - UserResponseDTO to do
--
----
-Bugs & Refactoring — Pet Sitter Application
-
-  
-
 
 ## Bora Movie example
 https://github.com/MustafaBora/spring-boot-movie/
