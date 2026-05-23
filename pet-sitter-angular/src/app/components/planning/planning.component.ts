@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { HttpRequestService } from '../../services/httpRequests/http-request.service';
+import { HttpRequestService } from '@app/services/httpRequests/http-request.service';
 // Pipes.
 import { DatePipe} from '@angular/common';
 // Interfaces.
-import { Activity } from '../../models/activity.model';
-import { PetBasic } from '../../models/pet.model';
-import { EmployeeBasic } from '../../models/employee.model';
+import { Activity } from '@app/models/activity.model';
+import { PetBasic } from '@app/models/pet.model';
+import { EmployeeBasic } from '@app/models/user.model';
 // Components.
 import { MatCardModule } from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
@@ -32,7 +32,7 @@ export class PlanningComponent {
           (pet: any): PetBasic => ({
             id: pet.id,
             name: pet.name,
-            breed: pet.type,
+            type: pet.type,
             age: pet.age,
           }),
         ) ?? [];

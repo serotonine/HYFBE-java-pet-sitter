@@ -1,5 +1,21 @@
 <header class="main-header">
   <div>Logo</div>
-  <menu></menu>
-  <div>Account</div>
+  <menu>
+  </menu>
+  <div>
+    
+    @if(user()){
+     <button matButton [matMenuTriggerFor]="profile">{{initial()}}</button>
+    <mat-menu #profile="matMenu">
+      <button mat-menu-item [routerLink]="['/user/customer', id]">My profile</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+    }
+    
+    @else {
+      <a routerLink="/auth/login">Login</a>
+    <span>&nbsp;|&nbsp;</span>
+    <a routerLink="/auth/register">Register</a>
+    }
+  </div>
 </header>

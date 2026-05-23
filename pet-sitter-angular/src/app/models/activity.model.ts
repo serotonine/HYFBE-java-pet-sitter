@@ -1,4 +1,4 @@
-import { EmployeeBasic } from "./employee.model";
+import { EmployeeBasic } from "./user.model";
 import { PetBasic } from "./pet.model";
 
 export interface Activity{
