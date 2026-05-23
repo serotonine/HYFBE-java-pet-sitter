@@ -4,8 +4,7 @@ A full-stack pet-sitting management application: It lets customers register, add
 Back end =>  Spring Boot REST API
 Front end => Angular 21. 
 
-Special thanks to Bora and his Movie application
-## Bora Movie example
+### Special thanks to Bora and his Movie application
 https://github.com/MustafaBora/spring-boot-movie/
 
 ---
@@ -155,7 +154,7 @@ In production, always set `JWT_SECRET` via an environment variable or secrets ma
 
 ## Database
 
-![Database](./pet-sitter-database.drawio.svg)
+![Database](./pet-sitter/pet-sitter-database.drawio.svg)
 
 Hibernate is configured with `ddl-auto=update`, so tables are created/updated automatically on startup. The PostgreSQL dialect is set to `org.hibernate.dialect.PostgreSQLDialect`.
 
