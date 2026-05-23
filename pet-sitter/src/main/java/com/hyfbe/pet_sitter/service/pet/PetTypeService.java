@@ -1,18 +1,11 @@
 package com.hyfbe.pet_sitter.service.pet;
 
-import com.hyfbe.pet_sitter.dto.pet.PetRequestDTO;
-import com.hyfbe.pet_sitter.dto.pet.PetResponseDTO;
-import com.hyfbe.pet_sitter.dto.pet.PetUpdateDTO;
-import com.hyfbe.pet_sitter.exception.PetSitterEntityNotFoundException;
-import com.hyfbe.pet_sitter.mapper.PetMapper;
-import com.hyfbe.pet_sitter.model.Customer;
-import com.hyfbe.pet_sitter.model.Pet;
+
+import com.hyfbe.pet_sitter.dto.pet.PetTypeResponseDTO;
+import com.hyfbe.pet_sitter.mapper.PetTypeMapper;
 import com.hyfbe.pet_sitter.model.PetType;
-import com.hyfbe.pet_sitter.repository.CustomerRepository;
-import com.hyfbe.pet_sitter.repository.PetRepository;
 import com.hyfbe.pet_sitter.repository.PetTypeRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,21 +14,18 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
 public class PetTypeService {
 
-   private final PetRepository prepo;
-   private final PetTypeRepository ptrepo;
-   private final CustomerRepository crepo;
-   private final PetMapper mapper;
+   private final PetTypeRepository repo;
+   private final PetTypeMapper mapper;
 
     // GET
     @Transactional(readOnly = true)
-    public List<PetResponseDTO> findAllPets(){
-        List<Pet> pets = prepo.findAll();
-        return pets.stream().map(mapper::toResponseDTO).collect(Collectors.toList());
+    public List<PetTypeResponseDTO> findAllPetTypes(){
+        List<PetType> types = repo.findAll();
+        return types.stream().map(mapper::toResponseDTO).collect(Collectors.toList());
     }
-    @Transactional(readOnly = true)
+   /* @Transactional(readOnly = true)
     public PetResponseDTO findPetById(Long id){
         Pet pet = prepo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Pet", id));
         return mapper.toResponseDTO(pet);
@@ -102,5 +92,5 @@ public class PetTypeService {
         }
         prepo.delete(pet);
         return mapper.toResponseDTO(pet);
-    }
+    }*/
 }

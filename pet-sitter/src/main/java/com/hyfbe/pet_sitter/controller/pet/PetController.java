@@ -19,9 +19,9 @@ import java.util.List;
 @Log4j2
 public class PetController {
 
-    private final PetTypeService service;
+    private final PetService service;
 
-    public PetController(PetTypeService service){
+    public PetController(PetService service){
         this.service = service;
     }
 
