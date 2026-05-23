@@ -1,18 +1,12 @@
 package com.hyfbe.pet_sitter.mapper;
 
-import com.hyfbe.pet_sitter.dto.pet.PetResponseDTO;
-import com.hyfbe.pet_sitter.dto.pet.PetUpdateDTO;
-import com.hyfbe.pet_sitter.model.Pet;
+import com.hyfbe.pet_sitter.dto.pet.PetTypeResponseDTO;
+import com.hyfbe.pet_sitter.model.PetType;
 import org.mapstruct.*;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface PetMapper {
+public interface PetTypeMapper {
     // Response
-    @Mapping(source="pet.customer.id" ,target="customerId")
-    @Mapping(source="pet.customer.name" ,target="customerName")
-    PetResponseDTO toResponseDTO(Pet pet);
+    PetTypeResponseDTO toResponseDTO(PetType type);
 
-    // Update.
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void toUpdatedEntity(PetUpdateDTO dto, @MappingTarget Pet pet);
 }

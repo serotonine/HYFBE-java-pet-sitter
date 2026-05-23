@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class PetService {
+public class PetTypeService {
 
    private final PetRepository prepo;
    private final PetTypeRepository ptrepo;

@@ -1,26 +1,44 @@
-## Roles
-ANONYMOUS:
-- view planning activity
+# Pet Sitter Application
+## Getting Started
 
-CUSTOMER:
-- set subscription
-- add owned pet
-- delete owned pet
-- join activity
+### Backend
 
-EMPLOYEE:
-- set vacancy
-- update owned profil
-- update his user password
-- update his user name
+1. **Create the database**
 
-ADMIN: 
-- delete employee
-- add employee => add new user aspect
-- set activity
-- delete activity
-- create activity
-- update activity
+   ```sql
+   CREATE DATABASE pet_sitter_db;
+   ```
+
+2. **Configure credentials** in `pet-sitter/src/main/resources/application.properties`:
+
+   ```properties
+   spring.datasource.url=jdbc:postgresql://localhost:5432/pet_sitter_db
+   spring.datasource.username=<your_pg_user>
+   spring.datasource.password=<your_pg_password>
+   ```
+
+3. **Run the application**
+
+   ```bash
+   cd pet-sitter
+   ./mvnw spring-boot:run
+   ```
+
+   The API starts on **http://localhost:8085**.
+
+4. **Swagger UI** is available at **http://localhost:8085/swagger-ui.html**.
+
+### Frontend
+
+```bash
+cd pet-sitter-angular
+npm install
+npm start          # ng serve
+```
+
+The app starts on **http://localhost:4200** and proxies all `/api` calls to `http://localhost:8085`.
+
+---
 
 ## TABLES
 
@@ -32,22 +50,6 @@ USER
 brew services list
 psql -U serotonine -d pet_sitter_db
 ps aux | grep postgres
-
-
-## TODO LIST 
-### EmployeeEnrolment
-- add => response => see also activity
-### Other
-- nulValuePropertyStrategy @BeanMapping (mapper)
-- set the responseEntity at the Controller level on Employee
-- Add Test for Activity
-- Understood well @JsonManagedReference
-- add save pet on create customer
-- UserResponseDTO to do
-- set pagination for activities
-## Bora Movie example
-https://github.com/MustafaBora/spring-boot-movie/
-
 
 ### Json annotations
 @JsonManagedReference et @JsonBackReference
@@ -156,3 +158,5 @@ private String password;
 Résumé — les plus utiles en Spring Boot :
 AnnotationUsage@JsonIgnoreexclure un champ (ex: password)@JsonPropertyrenommer un champ@JsonInclude(NON_NULL)ne pas retourner les nulls@JsonFormatformater les dates@JsonIgnoreProperties(ignoreUnknown=true)ignorer les champs inconnus du JSON entrant@JsonManagedReferencecôté parent d'une relation@JsonBackReferencecôté enfant d'une relation@JsonProperty(WRITE_ONLY)accepter en entrée mais ne pas retourner
 Le plus utilisé au quotidien : @JsonIgnore, @JsonProperty et @JsonInclude(NON_NULL)
+
+## Frontend => Angular v.19 + Angular Material + Tailwindcss

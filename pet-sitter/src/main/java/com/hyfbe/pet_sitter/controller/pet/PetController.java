@@ -1,9 +1,10 @@
-package com.hyfbe.pet_sitter.controller;
+package com.hyfbe.pet_sitter.controller.pet;
 
 import com.hyfbe.pet_sitter.dto.pet.PetRequestDTO;
 import com.hyfbe.pet_sitter.dto.pet.PetResponseDTO;
 import com.hyfbe.pet_sitter.dto.pet.PetUpdateDTO;
-import com.hyfbe.pet_sitter.service.PetService;
+import com.hyfbe.pet_sitter.service.pet.PetService;
+import com.hyfbe.pet_sitter.service.pet.PetTypeService;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ import java.util.List;
 @Log4j2
 public class PetController {
 
-    private final PetService service;
+    private final PetTypeService service;
 
-    public PetController(PetService service){
+    public PetController(PetTypeService service){
         this.service = service;
     }
 

@@ -1,4 +1,4 @@
-package com.hyfbe.pet_sitter.service;
+package com.hyfbe.pet_sitter.service.pet;
 
 import com.hyfbe.pet_sitter.dto.pet.PetRequestDTO;
 import com.hyfbe.pet_sitter.dto.pet.PetResponseDTO;
