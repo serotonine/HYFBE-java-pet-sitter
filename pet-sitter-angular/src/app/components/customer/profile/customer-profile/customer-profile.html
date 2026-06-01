@@ -1,13 +1,22 @@
-<mat-card-header>
-    <mat-card-title>{{ customer()?.name }}</mat-card-title>
+@if(isEditing()){
+  <app-user-form [userForm]="customerForm()"
+  (submitted)="onSubmitCustomer()" />
+  <button class="mt-4" matButton="filled" (click)="isEditing.set(!isEditing())" type="text">Cancel</button>
+  }
+  @else {
+  <mat-card-header>
+    <mat-card-title>{{ _customer()?.name }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <dl>
       <dt>Email: </dt>
-      <dd>{{customer()?.email}}</dd>
+      <dd>{{_customer()?.email}}</dd>
       <dt>Telephone: </dt>
-      <dd>{{customer()?.tel}}</dd>
+      <dd>{{_customer()?.tel}}</dd>
       <dt>Address: </dt>
-      <dd>{{customer()?.address}}</dd>
+      <dd>{{_customer()?.address}}</dd>
     </dl>
   </mat-card-content>
+  <button matButton="filled" (click)="isEditing.set(!isEditing())">Edit</button>
+  }
+

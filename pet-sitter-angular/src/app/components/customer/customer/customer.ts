@@ -1,37 +1,29 @@
 import { Component, inject, signal } from '@angular/core';
-import {
-  FormArray,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 // Service.
 import { HttpRequestService } from '@app/services/httpRequests/http-request.service';
-// Styling.
+import { FormService } from '@app/services/forms/form.service';
+// TO IF NEEDED
+//import { UserService } from '@app/services/user.service';
+// Material Design Styling.
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 // Component.
 import { CustomerProfile } from '../profile/customer-profile/customer-profile';
 import { PetProfile } from '@app/components/pet/pet-profile/pet-profile';
-// Data
+// Models.
 import { Customer } from '@app/models/user.model';
 import { Pet } from '@app/models/pet.model';
+import { PetDialog } from '@app/components/shared/dialog/pet.dialog/pet.dialog';
 
 @Component({
   selector: 'app-customer',
   imports: [
-    ReactiveFormsModule,
+    MatDialogModule,
     MatCardModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
     CustomerProfile,
-    PetProfile
+    PetProfile,
   ],
   templateUrl: './customer.html',
   styleUrl: './customer.scss',
@@ -39,91 +31,75 @@ import { Pet } from '@app/models/pet.model';
 export class CustomerComponent {
   // Inject.
   private httpRequest: HttpRequestService = inject(HttpRequestService);
-  // Forms
-  // Customer.
-  customerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    tel: new FormControl('', [
-      Validators.required,
-      Validators.pattern('[+]?[0-9\\s\\-]{7,15}'),
-    ]),
-    address: new FormControl('', Validators.required),
-  });
-  // Pet.
-  petForms = new FormArray<FormGroup>([]);
+  private formService: FormService = inject(FormService);
   
+  /**
+   * this.dialog.open(DialogForm, {
+  data: { title: 'Add a pet' },   // données passées au dialog
+  width: '500px',                  // largeur
+  height: '400px',                 // hauteur
+  maxWidth: '90vw',                // largeur max
+  minWidth: '300px',               // largeur min
+  panelClass: 'my-dialog',        // classe CSS custom
+  disableClose: true,              // empêche fermeture en cliquant dehors
+  autoFocus: true,                 // focus auto sur premier élément
+  backdropClass: 'my-backdrop',   // classe du fond
+  position: { top: '100px' },     // position custom
+  enterAnimationDuration: '300ms',
+  exitAnimationDuration: '200ms',
+});
+   */
+  private dialog: MatDialog = inject(MatDialog);
+  customerForm = this.formService.customerForm;
+
   // Template variables
   protected error = signal<string>('');
-  protected customer = signal<Customer | null>(null);
+  protected customer = signal<Customer | undefined>(undefined);
   // Signal.
-  protected isEditingCustomer = signal<boolean>(false);
   protected isEditingPet = signal<boolean>(false);
 
   ngOnInit() {
+    // TODO IF NEEDED => transfer all logic on UserService.
     this.httpRequest.getCurrentCustomer().subscribe({
       error: (err) => this.error.set(err),
       next: (customer) => {
         this.customer.set(customer);
-        // console.dir(customer);
         const { name, email, address, tel } = customer;
         this.customerForm.patchValue({ name, email, address, tel });
-         for(const pet of customer.pets){
-          this.addPetForm(pet);
-        }
       },
     });
   }
-  // PATCH
-  // Customer.
-  onSubmitCustomer() {
-    // Errors.
-    if (this.customerForm.invalid) {
-      this.customerForm.markAllAsTouched(); // déclenche l'affichage des erreurs mat
-      return;
-    }
-    const data = this.customerForm.getRawValue();
+
+  // Open Add Pet Dialog
+  addPet() {
     const id = Number(this.customer()?.id);
-    this.httpRequest.updateCustomer(id, data).subscribe({
-      error: (err) => this.error.set(err),
-      next: (customer) =>{
-        this.customer.set(customer);
-        this.isEditingCustomer.update(prev => !prev);
-       
-      }
+    const ref = this.dialog.open(PetDialog, {
+      data: {
+        title: 'Add a new pet',
+        request: 'POST',
+        customerId: id,
+      },
+    });
+    ref.afterClosed().subscribe((result) => {
+      if(!result) return;
+      const { name, id, age, type, comment } = result.response;
+      const pet: Pet = { name, id, age, type,comment};
+      this.customer.update((customer) => ({
+        ...customer!,
+        pets: [...customer!.pets, pet],
+      }));
+     
     });
   }
-  // Pet
-   onSubmitPet(petId: number) {
-  const form = this.getPetForm(petId);
-  if (form.invalid) {
-    form.markAllAsTouched();
-    return;
-  }
-  const data = form.getRawValue();
-  /* this.httpRequest.updatePet(petId, data).subscribe({
-    error: (err) => this.error.set(err),
-    next: () => this.isEditingPet.update(prev => !prev);
-  }); */
-}
-  
-  // POST
-  addPet(){
-    const id = Number(this.customer()?.id);
+  // Emited 
+  onDeletedPet(id:number){
+    const petList = this.customer()?.pets.filter(
+      pet => pet.id != id
+    )
+      this.customer.update((customer) => ({
+        ...customer!,
+        pets: petList!,
+      }));
 
   }
-  getPetForm(id: number): FormGroup {
-  const index = this.customer()!.pets!.findIndex(p => p.id === id);
-  return this.petForms.at(index) as FormGroup;
-}
-  // Populate petForms.
-  addPetForm(pet: Pet) {
-  this.petForms.push(new FormGroup({
-    name: new FormControl(pet.name, [Validators.required]),
-    age: new FormControl(pet.age, [Validators.required]),
-    type: new FormControl(pet.type.id, [Validators.required]),
-    comment: new FormControl(pet.comment),
-  }));
-}
- 
 }

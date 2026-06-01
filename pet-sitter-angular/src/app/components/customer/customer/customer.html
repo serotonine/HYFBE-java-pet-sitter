@@ -4,108 +4,33 @@
 @else {
 
 <mat-card class="min-w-sm max-w-1/2 mx-auto">
-  @if(isEditingCustomer()){
-  <form [formGroup]="customerForm" class="flex flex-col" (ngSubmit)="onSubmitCustomer()">
-    <!-- Name -->
-    <mat-form-field class="mb-2">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
-      <mat-error>Required name.</mat-error>
-    </mat-form-field>
-    <!-- Email -->
-    <mat-form-field class="mb-2">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" />
-      <mat-error>
-        @if (customerForm.get('email')?.hasError('required')) { Required email. }
-        @else if (customerForm.get('email')?.hasError('email')) { Invalid email. }
-      </mat-error>
-    </mat-form-field>
-    <!-- Telephone -->
-    <mat-form-field class="mb-2">
-      <mat-label>Telephone</mat-label>
-      <input matInput formControlName="tel" />
-      <mat-error>
-        @if (customerForm.get('email')?.hasError('required')) { Required Telephone. }
-        @else if (customerForm.get('email')?.hasError('email')) { Invalid telephone number. }
-      </mat-error>
-    </mat-form-field>
-        <!-- Address -->
-    <mat-form-field class="mb-2">
-      <mat-label>Address</mat-label>
-      <input matInput formControlName="address" />
-      <mat-error>
-        @if (customerForm.get('address')?.hasError('required')) { Required Address. }
-      </mat-error>
-    </mat-form-field>
-      <button matButton="filled"  [disabled]= "customerForm.invalid" type="submit">Go!</button>
-  </form>
-        <button class="mt-4" matButton="filled" (click)="isEditingCustomer.set(!isEditingCustomer())" type="text">Cancel</button>
-
+  @if(customer()){
+    <app-customer-profile [customer]="customer() ?? undefined" [customerForm] ="customerForm" />
   }
-  @else {
-  <app-customer-profile [customer]="customer() ?? undefined" />
-  <button matButton (click)="isEditingCustomer.set(!isEditingCustomer())">Edit</button>
-  }
-   
   <!-- Pet -->
   @if(customer()?.pets){
+    <mat-card-header>
+      <mat-card-subtitle>My pets: </mat-card-subtitle>
+    </mat-card-header>
   <mat-card-content class="mt-4 border-t-1">
-    <mat-card-subtitle>My pets: </mat-card-subtitle>
-    @for(pet of customer()?.pets; track pet.id; ; let i = $index){
-      @if(isEditingPet()){
-         <form [formGroup]="petForms.at(i)" class="flex flex-col" (ngSubmit)="onSubmitPet(pet.id)">
-          <!-- Name -->
-    <mat-form-field class="mb-2">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
-      <mat-error>Required name.</mat-error>
-    </mat-form-field>
-    <!-- Age -->
-    <mat-form-field class="mb-2">
-      <mat-label>age</mat-label>
-      <input matInput formControlName="age" />
-      <mat-error>Required age.</mat-error>
-    </mat-form-field>
-    <!-- Breed -->
-    <mat-form-field class="mb-2">
-      <mat-label>Breed</mat-label>
-      <input matInput formControlName="type" />
-      <mat-error>
-       Required breed.
-      </mat-error>
-    </mat-form-field>
-        <!-- comment -->
-    <mat-form-field class="mb-2">
-      <mat-label>Comment</mat-label>
-      <textarea matInput formControlName="comment"></textarea>
-      <mat-error>
-        @if (customerForm.get('address')?.hasError('required')) { Required Address. }
-      </mat-error>
-    </mat-form-field>
-      <button matButton="filled"  [disabled]= "customerForm.invalid" type="submit">Go!</button>
-
-         </form>
     
-
+    <div class="flex gap-4">
+      @for(pet of customer()?.pets; track pet.id; ; let i = $index){
+      <app-pet-profile [pet] ="pet" (deletedPet)="onDeletedPet($event)" />
       }
-      @else {
-        <app-pet-profile [pet]="pet"/>
-      <button matButton (click)="isEditingPet.set(!isEditingPet())">Edit</button>
-      }
-            
-
-    }
-     @if(!isEditingPet()){
-        <button matButton (click)="addPet()">Add pet</button>
-      }
+    </div>
+    <div> <button matButton (click)="addPet()">Add pet</button></div>
+        
+   
     
   </mat-card-content>
 
   }
   @else {
   <mat-card-subtitle>Currently no pet: Please add your pet.</mat-card-subtitle>
+  <button matButton (click)="addPet()">Add pet</button>
   }
+  
 
 
 </mat-card>

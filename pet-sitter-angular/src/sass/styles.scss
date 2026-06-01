@@ -5,8 +5,10 @@
   @include mat.button-overrides((
     filled-container-color: var(--mat-sys-tertiary),
     filled-label-text-color: var(--mat-sys-on-secondary),
-    filled-container-shape: 999px,
-  ));
+    filled-container-shape: 8px,
+    outlined-container-shape: 8px,
+    tonal-container-shape: 8px,
+    ));
 }
 
 html {
@@ -111,6 +113,7 @@ h3 { font-size: 1.25rem;
   .social-links a:hover svg path {
     fill: var(--gray-900);
   }
+  
 
   @media screen and (max-width: 650px) {
     .content {
@@ -118,3 +121,18 @@ h3 { font-size: 1.25rem;
       width: max-content;
     }
   }
+
+ dl {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+dt {
+  width: 20%;
+  font-weight: 600;
+}
+
+dd {
+  width: 80%;
+  margin: 0;
+}

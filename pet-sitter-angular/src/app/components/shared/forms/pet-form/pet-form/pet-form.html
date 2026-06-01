@@ -1,0 +1,25 @@
+<form [formGroup]="petForm" class="flex flex-col" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <mat-form-field class="mb-2">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error>Required name.</mat-error>
+    </mat-form-field>
+    <!-- age -->
+    <mat-form-field class="mb-2">
+      <mat-label>Age</mat-label>
+      <input matInput formControlName="age" />
+      <mat-error>
+        @if (petForm.get('email')?.hasError('required')) { Required email. }
+        @else if (petForm.get('email')?.hasError('email')) { Invalid email. }
+      </mat-error>
+    </mat-form-field>
+    <!-- Breed -->
+      <app-pet-type-select [control]="petForm.controls.type"/>
+        <!-- Address -->
+    <mat-form-field class="mb-2">
+      <mat-label>Comment</mat-label>
+      <input matInput formControlName="comment" />
+    </mat-form-field>
+      <button matButton="filled"  [disabled]= "petForm.invalid" type="submit">Go!</button>
+  </form>

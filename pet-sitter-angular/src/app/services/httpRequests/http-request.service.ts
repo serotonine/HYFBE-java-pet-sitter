@@ -1,8 +1,9 @@
 import { environment } from '../../../environments/environment.development';
 import { Injectable, OnInit, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, map, throwError, Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+
 // Model.
 import { Customer } from '@app/models/user.model';
 
@@ -35,7 +36,7 @@ export class HttpRequestService {
   }
 
   /* //////////////////////////////// POST //////////////////////////////// */
-  // Login
+  // Login.
   login(options:{email:string, pwd:string}){
     const params = new  HttpParams({fromObject: options}) ;
     // post(url, body, options)
@@ -47,17 +48,16 @@ export class HttpRequestService {
         ));
   }
   /* //////////////////////////////// PATCH //////////////////////////////// */
-  updateCustomer(id: number, data: Partial<Customer>) {
-    console.log(`${this._apiUrl}customer/${id}`);
-    console.dir(data);
+  updateCustomer(id: number, data: Partial<Customer>): Observable<Customer>{
+    // console.log(`${this._apiUrl}customer/${id}`);
+    // console.dir(data);
   return this._httpClient
   .patch<Customer>(`${this._apiUrl}customer/${id}`, data)
   .pipe(
-     map((response) => response),
     catchError((err) => throwError(() => err))
   );
 }
- 
+
   //const data = this.customerForm.getRawValue();
 
  /* 

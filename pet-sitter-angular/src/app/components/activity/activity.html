@@ -1,0 +1,45 @@
+<mat-card [class]="'type-' + activity().duration">
+  <mat-card-header>
+    <mat-card-title>
+      <button class="cursor-pointer m-0 p-0 translate-y-1 opacity-50 hover:opacity-100 transition-opacity"
+        (click)="openDescription()">
+        <svg width="25" height="25" viewBox="0 -0.2 13.2 13.2" xmlns="http://www.w3.org/2000/svg">
+          <title>info</title>
+          <path fill="#506352"
+            d="M6.6 11.4q-1.35 0 -2.5 -0.675t-1.825 -1.825 -0.675 -2.5 0.675 -2.5 1.825 -1.825 2.5 -0.675 2.5 0.675 1.825 1.825 0.675 2.5 -0.675 2.5 -1.825 1.825 -2.5 0.675m0.8 -6.2v-1.6h-1.6v1.6zm0 4V6h-1.6v3.2z" />
+        </svg>
+      </button>
+      {{ activity().title }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{activity().start| date:'HH:mm' }} • {{activity().duration}} min.
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
+    @if( activity().employee.length){
+    <p>Dog keeper{{activity().employee.length > 1?'s':''}}:</p>
+    <mat-chip-set>
+      @for (emp of activity().employee; track emp.id) {
+      <mat-chip>{{ emp.name }}</mat-chip>
+      }
+    </mat-chip-set>
+    }
+    @if(activity().pets && activity().pets.length>0){
+    <p>Dogs:</p>
+    <mat-chip-set>
+      @for (pet of activity().pets; track pet.id) {
+      <mat-chip>{{ pet.name }}</mat-chip>
+      }
+    </mat-chip-set>
+
+    }
+  </mat-card-content>
+  <mat-card-footer class="text-center py-4">
+    <h4>{{ displayRemainingPlaces()}}</h4>
+    @if(getRemainingPlaces()>=1 && pets()){
+      <button matButton="tonal" (click)="addPetToActivity()">Book</button>
+    }
+  </mat-card-footer>
+
+</mat-card>

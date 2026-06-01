@@ -1,10 +1,12 @@
 <dl>
   <dt>Name: </dt>
-  <dd>{{pet()?.name}}</dd>
+  <dd>{{_pet()?.name}}</dd>
   <dt>Breed: </dt>
-  <dd>{{pet()?.type?.name}}</dd>
+  <dd>{{_pet()?.type?.name}}</dd>
   <dt>Age: </dt>
-  <dd>{{pet()?.age}}</dd>
+  <dd>{{_pet()?.age}}</dd>
   <dt>Comment: </dt>
-  <dd>{{pet()?.comment}}</dd>
+  <dd>{{_pet()?.comment}}</dd>
 </dl>
+<button matButton="filled" (click)="updatePet()">Edit</button>
+<button matButton="filled" (click)="deletePet(pet()?.id)">Delete</button>

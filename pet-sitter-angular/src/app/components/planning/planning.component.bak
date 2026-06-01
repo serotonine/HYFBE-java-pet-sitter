@@ -1,0 +1,42 @@
+<div class="planning-grid">
+
+  @for (activity of activities; track activity.id) {
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ activity.title }}</mat-card-title>
+        <mat-card-subtitle>
+           {{activity.start| date:'HH:mm' }} - {{activity.end| date:'HH:mm'}}
+        </mat-card-subtitle>
+        <mat-card-subtitle>
+           {{activity.duration}} minutes.
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ activity.description }}</p>
+         <p>With:</p>
+        <mat-chip-set>
+          @for (emp of activity.employee; track emp.id) {
+            <mat-chip>{{ emp.name }}</mat-chip>
+          }
+        </mat-chip-set>
+        @if(activity.pets.length>0){
+           <mat-chip-set>
+          @for (pet of activity.pets; track pet.id) {
+            <mat-chip>{{ pet.name }}</mat-chip>
+          }
+        </mat-chip-set>
+
+        }
+       
+      </mat-card-content>
+
+      <mat-card-footer>
+        <mat-card-title>{{ getRemainingPlaces(activity)}}</mat-card-title>
+      </mat-card-footer>
+
+    </mat-card>
+
+  } 
+
+</div>
