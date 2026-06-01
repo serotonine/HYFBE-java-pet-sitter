@@ -49,15 +49,24 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/customer/**").hasAnyRole("ADMIN","CUSTOMER")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/customer/**").hasRole("CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/customer/**").hasRole("CUSTOMER")
+                        // PET
+                        .requestMatchers(HttpMethod.GET, "/api/v1/pet/").hasAnyRole("ADMIN","EMPLOYEE")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/pet/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/pet/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/pet/**").hasRole("CUSTOMER")
                         // Pet Enrolment
                         .requestMatchers(HttpMethod.GET, "/api/v1/pet/enrolment").hasAnyRole("CUSTOMER")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/pet/enrolment").hasRole("CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/pet/enrolment").hasRole("CUSTOMER")
+                        // PET TYPE
+                        .requestMatchers(HttpMethod.GET, "/api/v1/pet-type").permitAll()
 
                         // EMPLOYEE
+                        // ACTIVITY
+                        .requestMatchers(HttpMethod.GET, "/api/v1/activity/**").permitAll()
 
                         // ADMIN can do everything else
-                        .anyRequest().anonymous()
+                        .anyRequest().hasRole("ADMIN")
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, e) -> {

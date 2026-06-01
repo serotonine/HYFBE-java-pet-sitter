@@ -93,7 +93,7 @@ public class PetService {
 
     // DELETE
     @Transactional
-    public PetResponseDTO deletePet( Long id){
+    public PetResponseDTO deletePet(Long id){
         Pet pet = prepo.findById(id).orElseThrow(()-> new PetSitterEntityNotFoundException("Pet", id));
         // Manually remove from customer's list
         Customer customer = pet.getCustomer();

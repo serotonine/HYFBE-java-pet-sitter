@@ -53,7 +53,6 @@ public class PetController {
             @Valid @RequestBody PetUpdateDTO dto
             ){
         PetResponseDTO updated = service.updatePet(id, dto);
-        log.info("DTO PET UPDATED : " + updated.getComment());
         return ResponseEntity.ok().body(updated);
     }
 

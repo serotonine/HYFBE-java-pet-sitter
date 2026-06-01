@@ -15,6 +15,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     LEFT JOIN FETCH pe.pet
     LEFT JOIN FETCH ee.employee
     LEFT JOIN FETCH a.type
+    ORDER BY a.startDate
 """)
     List<Activity> findAllComplete();
 }

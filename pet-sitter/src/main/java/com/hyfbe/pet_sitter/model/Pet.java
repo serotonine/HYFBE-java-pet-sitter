@@ -25,7 +25,7 @@ public class Pet {
     private Long id;
 
     // FIELD NAME
-    @Column(name="pet_name", nullable = false, unique = true, length = 150)
+    @Column(name="pet_name", nullable = false, length = 150)
     private String name;
 
     // FIELD customer
