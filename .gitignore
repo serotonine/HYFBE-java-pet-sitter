@@ -2,6 +2,9 @@
 *.class
 .DS_Store
 
+# vsCode
+.vscode
+
 # Log file
 *.log
 
@@ -30,5 +33,8 @@ replay_pid*
 **/.idea
 **/HELP.md
 
-# hidden properties
+# hidden files.
 src/main/resources/application-dev.properties
+TODO.md
+*.sql
+
