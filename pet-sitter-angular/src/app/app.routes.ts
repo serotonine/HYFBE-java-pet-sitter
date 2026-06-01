@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { PlanningComponent } from './components/planning/planning.component';
-import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { CustomerComponent } from './components/customer/customer/customer';
 
 export const routes: Routes = [
   { path: '',   redirectTo: '/planning', pathMatch: 'full' },
@@ -13,7 +11,7 @@ export const routes: Routes = [
    {
     path: 'auth/login',
     title: 'Login',
-    component:LoginComponent,
+    loadComponent: () => import('./components/auth/login/login.component').then(m => m.LoginComponent) 
   },
   {
     path: 'auth/register',
@@ -23,6 +21,6 @@ export const routes: Routes = [
   {
     path: 'user/customer/:id',
     title: 'Customer',
-    component:CustomerComponent,
+    loadComponent: () => import('./components/customer/customer/customer').then(m => m.CustomerComponent) 
   },
 ];
