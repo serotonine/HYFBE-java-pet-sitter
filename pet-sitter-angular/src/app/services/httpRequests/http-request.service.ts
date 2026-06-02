@@ -39,6 +39,7 @@ export class HttpRequestService {
   // Login.
   login(options:{email:string, pwd:string}){
     const params = new  HttpParams({fromObject: options}) ;
+    console.log("LOGIN REQUEST");
     // post(url, body, options)
     return this._httpClient
       .post<LoginResponse>(`${this._apiUrl}user/login`,null,{params} )
