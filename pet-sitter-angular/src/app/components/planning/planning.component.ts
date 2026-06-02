@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject } from '@angular/core';
 // Services
 import { HttpRequestService } from '@app/services/httpRequests/http-request.service';
 import { PlanningService } from '@app/services/planning.service';
@@ -7,9 +7,6 @@ import { UserService } from '@app/services/user.service';
 import { DatePipe, KeyValuePipe} from '@angular/common';
 // Interfaces.
 import { Activity as ActivityModel } from '@app/models/activity.model';
-import { Customer } from '@app/models/user.model';
-import { PetBasic } from '@app/models/pet.model';
-import { EmployeeBasic } from '@app/models/user.model';
 // Components.
 import { MatCardModule } from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';

@@ -9,10 +9,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonAppearance } from '@angular/material/button';
 // Models.
 import { Activity as ActivityModel } from '@app/models/activity.model';
-import { Pet, PetBasic } from '@app/models/pet.model';
+import { Pet } from '@app/models/pet.model';
 // Pipes
 import { DatePipe } from '@angular/common';
 import { MatAnchor } from "@angular/material/button";

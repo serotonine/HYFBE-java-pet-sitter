@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:8085",
+    "target": "https://serotonine.alwaysdata.net/pet-sitter",
     "secure": false,
     "changeOrigin": true
   }

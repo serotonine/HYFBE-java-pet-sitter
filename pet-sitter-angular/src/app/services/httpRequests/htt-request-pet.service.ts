@@ -1,15 +1,10 @@
 import { environment } from '../../../environments/environment.development';
-import { Injectable, OnInit, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, throwError, Observable } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
+import { catchError, throwError, Observable } from 'rxjs';
 
 // Model.
 import {Pet, PetRequest, PetType } from '@app/models/pet.model';
-
-interface LoginResponse {
-  token: string;
-}
 
 // Plain Service — you call it yourself
 @Injectable({

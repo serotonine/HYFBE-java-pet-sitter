@@ -1,4 +1,4 @@
-import { Component, signal, inject, WritableSignal, ProviderToken } from '@angular/core';
+import { Component, signal, inject, WritableSignal } from '@angular/core';
 // Http requests.
 import { HttpRequestService } from '@app/services/httpRequests/http-request.service';
 // Auth
